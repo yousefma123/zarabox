@@ -1,9 +1,9 @@
 <?php
     $settings = true;
-    $page_title = "Zara Euphoria Box";
-    require("includes/components/header.php");
+    $page_title = "ZaraBox";
     require('init.php');
-    include('includes/components/navbar.php');
+    require("public/components/header.php");
+    include('public/components/navbar.php');
 ?>
 
     <div id="carouselExampleFade" class="heroSlider carousel slide carousel-fade position-relative">
@@ -12,25 +12,25 @@
                 <div class="category-name" style="z-index: 9999;">
                     <a href="#" class="btn btn-default rounded-0">رجالي</a>
                 </div>
-                <img src="images/hero/img1.jpg" class="d-block w-100" alt="img1">
+                <img src="<?= public_url('uploads/web/img1.jpg') ?>" class="d-block w-100" alt="img1">
             </div>
             <div class="carousel-item position-relative">
                 <div class="category-name" style="z-index: 9999;">
                     <a href="#" class="btn btn-default rounded-0">حريمي</a>
                 </div>
-                <img src="images/hero/img2.jpg" class="d-block w-100" alt="img2">
+                <img src="<?= public_url('uploads/web/img2.jpg') ?>" class="d-block w-100" alt="img2">
             </div>
             <div class="carousel-item position-relative">
                 <div class="category-name" style="z-index: 9999;">
                     <a href="#" class="btn btn-default rounded-0">أطفال</a>
                 </div>
-                <img src="images/hero/img3.jpg" class="d-block w-100" alt="img3">
+                <img src="<?= public_url('uploads/web/img3.jpg') ?>" class="d-block w-100" alt="img3">
             </div>
             <div class="carousel-item position-relative">
                 <div class="category-name" style="z-index: 9999;">
                     <a href="#" class="btn btn-default rounded-0">أحذية</a>
                 </div>
-                <img src="images/hero/img4.jpg" class="d-block w-100" alt="img4">
+                <img src="<?= public_url('uploads/web/img4.jpg') ?>" class="d-block w-100" alt="img4">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
@@ -49,7 +49,7 @@
                 <h3 class="main-title mb-5">أفضل الملابس الحديثة</h3>
                 <div class="owl-carousel owl-items owl-theme">
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_045.jpg?v=1740393878&width=360" alt="img1">
                             </div>
@@ -67,7 +67,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_016.jpg?v=1740475063&width=360" alt="img1">
                             </div>
@@ -85,7 +85,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_062.jpg?v=1738503166&width=360" alt="img1">
                             </div>
@@ -103,7 +103,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_029.jpg?v=1738503611&width=360" alt="img1">
                             </div>
@@ -129,7 +129,7 @@
                 <h3 class="main-title mb-5">أفضل الملابس الحديثة</h3>
                 <div class="owl-carousel owl-items owl-theme">
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/ChatGPT_Image_Jun_6_2025_01_41_31_PM.png?v=1749214060&width=360" alt="img1">
                             </div>
@@ -147,7 +147,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/ChatGPT_Image_Jun_6_2025_01_41_32_PM.png?v=1749214051&width=360" alt="img1">
                             </div>
@@ -165,7 +165,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Sophie_Bainbridge001.jpg?v=1739725978&width=360" alt="img1">
                             </div>
@@ -183,7 +183,7 @@
                         </a>
                     </div>
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product" class="category-item">
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Sophie_Bainbridge009.jpg?v=1739726018&width=360" alt="img1">
                             </div>
@@ -219,49 +219,6 @@
         </div>
     </section>
 
-
-    <footer class="p-5 px-2">
-        <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap">
-            <div class="footer-links d-flex gap-3 flex-wrap">
-                <a href="#">الرئيسية</a>
-                <a href="#">تواصل معنا</a>
-                <a href="#">عن المتجر</a>
-            </div>
-            <div class="media-links d-flex gap-3 flex-wrap">
-                <a href="#" class=""></a>
-            </div>
-        </div>
-    </footer>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <script>
-        $(".owl-items").owlCarousel({
-            loop: false,
-            margin: 15,
-            nav: true,
-            dots: false,
-            autoplay: true,
-            autoplayHoverPause: false, 
-            autoplayTimeout: 8000,
-            rtl: true,
-            responsive: {
-                0: {
-                    items: 1,
-                    stagePadding: 70
-                },
-                500: {
-                    items:2,
-                    stagePadding: 50
-                },
-                900: {
-                    items: 4,
-                    stagePadding: 0
-                }
-                
-            }
-        });
-    </script>
-
-
-<?php include('includes/components/footer.php'); ?>
+<?php include('public/components/footer.php'); ?>

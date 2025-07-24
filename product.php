@@ -1,5 +1,10 @@
-
-
+<?php
+    $settings = true;
+    $page_title = "ZaraBox";
+    require('init.php');
+    require("public/components/header.php");
+    include('public/components/navbar.php');
+?>
 
     <section class="details">
         <div class="show_images_clicked w-100 h-100 position-fixed justify-content-center align-items-center">
@@ -200,72 +205,9 @@
         </div>
     </section>
 
-
-    <footer class="p-5 px-2">
-        <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap">
-            <div class="footer-links d-flex gap-3 flex-wrap">
-                <a href="#">الرئيسية</a>
-                <a href="#">تواصل معنا</a>
-                <a href="#">عن المتجر</a>
-            </div>
-            <div class="fs-14">© 2025, Stanley Biggs Clothiers Powered by USS</div>
-            <div class="media-links d-flex gap-4 flex-wrap">
-                <a href="#" class="fa fa-facebook"></a>
-                <a href="#" class="fa fa-x"></a>
-                <a href="#" class="fa fa-instagram"></a>
-                <a href="#" class="fa fa-whatsapp"></a>
-                <a href="#" class="fab fa-tiktok"></a>
-            </div>
-        </div>
-    </footer>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script>
-        $(".owl-items").owlCarousel({
-            loop: false,
-            margin: 15,
-            nav: true,
-            dots: false,
-            autoplay: true,
-            autoplayHoverPause: false, 
-            autoplayTimeout: 8000,
-            rtl: true,
-            responsive: {
-                0: {
-                    items: 1,
-                    stagePadding: 70
-                },
-                500: {
-                    items:2,
-                    stagePadding: 50
-                },
-                900: {
-                    items: 4,
-                    stagePadding: 0
-                }
-                
-            }  
-        });
-    </script>
-    <script>
-        // window.onload = function(){
-        //     let slider = document.getElementById('images_slider'),
-        //         images = "<?= $getProduct['fetch']['images'] ?>".split(','),
-        //         rights = document.querySelectorAll('.one_image'),
-        //         _count = 1;
-        //     setInterval(() => {
-        //         if(_count == images.length){
-        //             _count = 0;
-        //         }
-        //         slider.setAttribute('src', "<?= $url ?>/includes/uploads/products/images/"+images[_count]);
-        //         rights.forEach( (item) => {
-        //             item.classList.remove('active');
-        //         });
-        //         rights[_count].classList.add('active');
-        //         _count ++;
-        //     }, 5000);
-        // }
         function _getImage(elem)
         {
             const imageSRC  = elem.querySelector('img').getAttribute('src');
@@ -279,100 +221,110 @@
             const box   = document.querySelector('.show_images_clicked');  
             box.style.display = 'none';
         }
+        function _clicked(elem, type = null, clss = null)
+        {
+            if(type == 'radio'){
+                const divs = document.querySelectorAll('.'+clss);
+                divs.forEach( (item) => {
+                    item.nextElementSibling.classList.remove('active');
+                });
+            }
+            elem.nextElementSibling.classList.toggle('active')
+        }
     </script>
 
-<script>
-    const QtyInput = (() => {
-        const $qtyInputs = $(".qty-input");
+    <script>
+        // const PRODUCTID = 1;
+        const QtyInput = (() => {
+            const $qtyInputs = $(".qty-input");
 
-        if (!$qtyInputs.length) return;
+            if (!$qtyInputs.length) return;
 
-        const $inputs = $qtyInputs.find(".product-qty");
-        const $countBtn = $qtyInputs.find(".qty-count");
-        const qtyMin = parseInt($inputs.attr("min"));
-        const qtyMax = parseInt($inputs.attr("max"));
+            const $inputs = $qtyInputs.find(".product-qty");
+            const $countBtn = $qtyInputs.find(".qty-count");
+            const qtyMin = parseInt($inputs.attr("min"));
+            const qtyMax = parseInt($inputs.attr("max"));
 
-        $inputs.on("change", function () {
-            const $this = $(this);
-            const $minusBtn = $this.siblings(".qty-count--minus");
-            const $addBtn = $this.siblings(".qty-count--add");
-            let qty = parseInt($this.val());
+            $inputs.on("change", function () {
+                const $this = $(this);
+                const $minusBtn = $this.siblings(".qty-count--minus");
+                const $addBtn = $this.siblings(".qty-count--add");
+                let qty = parseInt($this.val());
 
-            if (isNaN(qty) || qty <= qtyMin) {
-                $this.val(qtyMin);
-                $minusBtn.attr("disabled", true);
-            } else {
-                $minusBtn.attr("disabled", false);
-
-                if (qty >= qtyMax) {
-                    $this.val(qtyMax);
-                    $addBtn.attr("disabled", true);
+                if (isNaN(qty) || qty <= qtyMin) {
+                    $this.val(qtyMin);
+                    $minusBtn.attr("disabled", true);
                 } else {
-                    $this.val(qty);
-                    $addBtn.attr("disabled", false);
+                    $minusBtn.attr("disabled", false);
+
+                    if (qty >= qtyMax) {
+                        $this.val(qtyMax);
+                        $addBtn.attr("disabled", true);
+                    } else {
+                        $this.val(qty);
+                        $addBtn.attr("disabled", false);
+                    }
                 }
-            }
-            
-        });
+                
+            });
 
-        $inputs.on("keyup", function () {
-            changePrice(this.value)
-        })
+            $inputs.on("keyup", function () {
+                changePrice(this.value)
+            })
 
-        $countBtn.on("click", function () {
-            const operator = this.dataset.action;
-            const $this = $(this);
-            const $input = $this.siblings(".product-qty");
-            let qty = parseInt($input.val());
+            $countBtn.on("click", function () {
+                const operator = this.dataset.action;
+                const $this = $(this);
+                const $input = $this.siblings(".product-qty");
+                let qty = parseInt($input.val());
 
-            if (operator === "add") {
-                qty += 1;
+                if (operator === "add") {
+                    qty += 1;
 
-                if (qty >= qtyMin + 1) {
-                    $this.siblings(".qty-count--minus").attr("disabled", false);
+                    if (qty >= qtyMin + 1) {
+                        $this.siblings(".qty-count--minus").attr("disabled", false);
+                    }
+
+                    if (qty >= qtyMax) {
+                        $this.attr("disabled", true);
+                    }
+                } else {
+                    qty = qty <= qtyMin ? qtyMin : qty - 1;
+
+                    if (qty === qtyMin) {
+                        $this.attr("disabled", true);
+                    }
+
+                    if (qty < qtyMax) {
+                        $this.siblings(".qty-count--add").attr("disabled", false);
+                    }
                 }
+                changePrice(qty)
+                $input.val(qty);
+            });
+        })();
 
-                if (qty >= qtyMax) {
-                    $this.attr("disabled", true);
-                }
-            } else {
-                qty = qty <= qtyMin ? qtyMin : qty - 1;
-
-                if (qty === qtyMin) {
-                    $this.attr("disabled", true);
-                }
-
-                if (qty < qtyMax) {
-                    $this.siblings(".qty-count--add").attr("disabled", false);
-                }
-            }
-            changePrice(qty)
-            $input.val(qty);
-        });
-    })();
-
-    const changePrice = (quantity) => {
-        const price = Number($price.getAttribute('price')) * quantity
-        $price.innerText = price.toLocaleString("en-US")
-    }
-
-    document.querySelectorAll('.product-qty').forEach(input => {
-        const min = parseInt(input.min);
-        const max = parseInt(input.max);
-    
-        input.addEventListener('input', () => {
-        let value = parseInt(input.value);
-    
-        if (isNaN(value)) {
-            input.value = min;
-        } else if (value > max) {
-            input.value = max;
-        } else if (value < min) {
-            input.value = min;
+        const changePrice = (quantity) => {
+            const price = Number($price.getAttribute('price')) * quantity
+            $price.innerText = price.toLocaleString("en-US")
         }
+
+        document.querySelectorAll('.product-qty').forEach(input => {
+            const min = parseInt(input.min);
+            const max = parseInt(input.max);
+        
+            input.addEventListener('input', () => {
+            let value = parseInt(input.value);
+        
+            if (isNaN(value)) {
+                input.value = min;
+            } else if (value > max) {
+                input.value = max;
+            } else if (value < min) {
+                input.value = min;
+            }
+            });
         });
-    });
-  
     </script>
 
     <script>
@@ -391,3 +343,5 @@
             }
         }
     </script>
+
+<?php include('public/components/footer.php'); ?>

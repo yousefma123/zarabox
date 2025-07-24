@@ -1,21 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="ow-carousel.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/all.min.css">
-    <link rel="stylesheet" href="css/pe-icons.css">
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body dir="rtl">
-
+<?php
+    $settings = true;
+    $page_title = "ZaraBox";
+    require('init.php');
+    require("public/components/header.php");
+    include('public/components/navbar.php');
+?>
 
     <section class="cart py-5 px-2">
         <div class="container">
@@ -50,44 +39,7 @@
         </div>
     </section>
 
-
-
-
-
-    <footer class="p-5 px-2">
-        <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap">
-            <div class="footer-links d-flex gap-3 flex-wrap">
-                <a href="#">الرئيسية</a>
-                <a href="#">تواصل معنا</a>
-                <a href="#">عن المتجر</a>
-            </div>
-            <div class="fs-14">© 2025, Stanley Biggs Clothiers Powered by USS</div>
-            <div class="media-links d-flex gap-4 flex-wrap">
-                <a href="#" class="fa fa-facebook"></a>
-                <a href="#" class="fa fa-x"></a>
-                <a href="#" class="fa fa-instagram"></a>
-                <a href="#" class="fa fa-whatsapp"></a>
-                <a href="#" class="fab fa-tiktok"></a>
-            </div>
-        </div>
-    </footer>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js"
-        integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK"
-        crossorigin="anonymous"></script>
-
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-    <script src="owl.carousel.js"></script>
-    <script src="owl.autoplay.js"></script>
-    <script src="owl.navigation.js"></script>
-    <script src="font.js"></script>
-    <script src="scripts.js"></script>
 
     <script>
         const PRODUCTID = 1
@@ -105,6 +57,5 @@
             box.style.display = 'none';
         }
     </script>
-</body>
 
-</html>
+<?php include('public/components/footer.php'); ?>

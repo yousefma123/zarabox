@@ -1,11 +1,16 @@
-
+<?php
+    $settings = true;
+    $page_title = "ZaraBox";
+    require('init.php');
+    require("public/components/header.php");
+    include('public/components/navbar.php');
+?>
 
     <style>
         body {
             background-color: #fff !important;
         }
     </style>
-
 
     <section class="checkout px-2">
         <div class="container">
@@ -143,26 +148,7 @@
         </div>
     </section>
 
-
-
-    <footer class="p-5 px-2">
-        <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap">
-            <div class="footer-links d-flex gap-3 flex-wrap">
-                <a href="#">الرئيسية</a>
-                <a href="#">تواصل معنا</a>
-                <a href="#">عن المتجر</a>
-            </div>
-            <div class="fs-14">© 2025, Stanley Biggs Clothiers Powered by USS</div>
-            <div class="media-links d-flex gap-4 flex-wrap">
-                <a href="#" class="fa fa-facebook"></a>
-                <a href="#" class="fa fa-x"></a>
-                <a href="#" class="fa fa-instagram"></a>
-                <a href="#" class="fa fa-whatsapp"></a>
-                <a href="#" class="fab fa-tiktok"></a>
-            </div>
-        </div>
-    </footer>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
 <?php include('public/components/footer.php'); ?>
   

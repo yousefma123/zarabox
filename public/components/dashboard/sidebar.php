@@ -15,17 +15,31 @@
                 </a>
             </li> -->
             <hr class="line-breek">
-            <span class="side-hint text-muted fs-7 p-2 pt-0 fw-bold">المتجر</span>
+            <span class="side-hint text-muted fs-7 p-2 pt-0 fw-bold">الأقسام</span>
             <li class="nav-item mb-1">
-                <a href="<?= $_ENV['WEB_URL'] ?>/admin/categories/create" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'categories' ?  'active' : '' ?>">
+                <a href="<?= $_ENV['WEB_URL'] ?>/admin/categories/show" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'categories.show' ?  'active' : '' ?>">
                     <span class="fa fa-bars ms-3"></span>
-                    الأقسام
+                    عرض
                 </a>
             </li>
             <li class="nav-item mb-1">
-                <a href="<?= $_ENV['WEB_URL'] ?>/admin/products/create" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'products' ?  'active' : '' ?>">
+                <a href="<?= $_ENV['WEB_URL'] ?>/admin/categories/create" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'categories.create' ?  'active' : '' ?>">
                     <span class="fa fa-bars ms-3"></span>
-                    المنتجات
+                    إضافة
+                </a>
+            </li>
+            <hr class="line-breek">
+            <span class="side-hint text-muted fs-7 p-2 pt-0 fw-bold">المنتجات</span>
+            <li class="nav-item mb-1">
+                <a href="<?= $_ENV['WEB_URL'] ?>/admin/products/show" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'products.show' ?  'active' : '' ?>">
+                    <span class="fa fa-bars ms-3"></span>
+                    عرض
+                </a>
+            </li>
+            <li class="nav-item mb-1">
+                <a href="<?= $_ENV['WEB_URL'] ?>/admin/products/create" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'products.create' ?  'active' : '' ?>">
+                    <span class="fa fa-bars ms-3"></span>
+                    إضافة
                 </a>
             </li>
             <hr class="line-breek">

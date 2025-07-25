@@ -26,7 +26,7 @@
                                 <div class="card-body p-1 d-flex justify-content-between flex-column">
                                     <div class="card-user-info d-flex justify-content-between flex-wrap">
                                         <div class="d-flex gap-3 flex-wrap flex-grow-1 mb-3">
-                                            <img class="rounded-circle" widht="65" height="65" src="<?= public_url('uploads/logos/logo.png') ?>" alt="ZaraBox">
+                                            <img class="rounded-circle" widht="65" height="65" src="<?= public_url('uploads/logos/') . $statement->select('value', 'settings', 'fetch', "WHERE `key` = 'logo'")['fetch']['value'] ?>" alt="ZaraBox">
                                             <div class="mt-2">
                                                 <h5 class="fw-bold card-title-header mb-1">ZaraBox Store</h5>
                                                 <a href="#" class="card-title-header fs-7">admin@zarabox.com</a>

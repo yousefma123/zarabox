@@ -4,44 +4,50 @@
 
     class Uploader { 
 
-        public function index(Array $file_array, String $src, Int $size_allowd, Array $types_allowed, $check_before = false, $check_ext = true) 
-        :Array 
+        public bool $status     = false;
+        public string $message  = '';
+        public string $name     = '';
+
+        public function check(array $file, int $allowed_size, array $allowed_types = []): bool 
         {   
-            $status = [];
+            $fileName  = strtolower($file['name']);
+            $cutFile   = explode('.', $fileName);
+            $fileType  = end($cutFile);
 
-            $file_name  = strtolower($file_array['name']);
-            $cut_file   = explode('.', $file_name);
-            $file_type  = end($cut_file);
-            if($check_ext == true){
-            if(in_array($file_type, $types_allowed))
-                {
-                    if($file_array['size'] > $size_allowd)
-                    {
-                        $status['type']     = "error";
-                        $status['message']  = "حجم الملف كبير للغاية";
-                    }
-                }else{
-                    $status['type']     = "error";
-                    $status['message']  = "برجاء رفع ملف مطابق للأنواع المسموح بها";
-                }
+            if (!empty($allowed_types) && !in_array($fileType, $allowed_types)) {
+                $this->message = "برجاء رفع ملف مطابق للأنواع المسموح بها";
+                $this->status = false;
+                return false;
             }
 
-            if(empty($status)){
-                if($check_before == false){
-                    $random_file_name = bin2hex(openssl_random_pseudo_bytes(8)).time().'.'.$file_type;
-                    if(move_uploaded_file($file_array['tmp_name'], dirname(__DIR__).$src.$random_file_name)){
-                        $status['type']       = "success";
-                        $status['message']    = true;
-                        $status['file_name']  = $random_file_name;
-                    }
-                }else{
-                    $status['type']     = "success";
-                    $status['message']  = true;
-                    $status['file']     = $file_array;
-                }
+            if ($file['size'] > $allowed_size) {
+                $this->message = "حجم الملف كبير للغاية";
+                $this->status = false;
+                return false;
             }
-            
-            return $status;
+
+            $this->status = true;
+            return true;
         }
 
+        public function store(array $file, string $src): bool
+        {   
+            $fileName  = strtolower($file['name']);
+            $cutFile   = explode('.', $fileName);
+            $fileType  = end($cutFile);
+
+            $random_file_name = bin2hex(openssl_random_pseudo_bytes(8)) . time() . '.' . $fileType;
+
+            $destination = $src . '/' . $random_file_name;
+
+            if (move_uploaded_file($file['tmp_name'], $destination)) {
+                $this->status = true;
+                $this->name   = $random_file_name;
+                return true;
+            }
+
+            $this->status   = false;
+            $this->message  = 'Error occured when uploading !';
+            return false;
+        }
     }

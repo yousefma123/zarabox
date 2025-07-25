@@ -6,7 +6,7 @@
         <div class="m-0 navbar-brand ms-2" style="position:relative;top:-2px;">
             <span class="fa fa-bars ms-2 position-relative customer-navbar-bars d-none" style="top:2px;" onclick="_toggle_customer_sidebar()"></span>
             <a href="<?= $_ENV['WEB_URL'] ?>/admin/home">
-                <img width="40" height="40" src="<?= $_ENV['WEB_URL'] ?>/includes/uploads/images/logos/logo.png" alt="ZaraBox">
+                <img width="40" height="40" src="<?= public_url('uploads/logos/') . $statement->select('value', 'settings', 'fetch', "WHERE `key` = 'logo'")['fetch']['value'] ?>" alt="ZaraBox">
             </a>
         </div>
         <ul class="navbar-nav flex-row">

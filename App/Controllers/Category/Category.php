@@ -4,18 +4,24 @@
     use App\Database\Connection;
     use App\Helpers\Uploader;
     use App\Helpers\Alert;
+    use App\Helpers\Statement;
+    use App\Helpers\FileSystem;
 
     class Category {
 
         protected $conn;
         protected $alert;
         protected $uploader;
+        protected $fileSystem;
+        protected $statement;
 
         public function __construct()
         {
-            $this->conn     = (new Connection())->DB;
-            $this->alert    = (new Alert());
-            $this->uploader = (new Uploader());
+            $this->conn         = (new Connection())->DB;
+            $this->alert        = (new Alert());
+            $this->uploader     = (new Uploader());
+            $this->fileSystem   = (new FileSystem());
+            $this->statement    = (new Statement());
         }
 
         public function create() 
@@ -61,6 +67,21 @@
                 }
             } else {
                 $this->alert->push($errors[0], 'error');
+            }
+        }
+
+        public function delete($token)
+        {
+            if (!isset($token) || $token != $_SESSION['token']) return false;
+        
+            $item = $this->statement->select("`cover`", "`categories`", "fetch", "WHERE `id` = ".$_GET['id']."", "LIMIT 1");
+            if($item['rowCount'] == 1){
+                $delete = $this->conn->prepare("DELETE FROM `categories` WHERE `id` = ? LIMIT 1");
+                $delete->execute([$_GET['id']]);
+                if($delete->rowCount() == 1){
+                    $this->alert->push('تم حذف القسم بنجاح');
+                    $this->fileSystem->remove(PUBLIC_PATH.'/uploads/categories/'.$item['fetch']['cover']);
+                }
             }
         }
     }

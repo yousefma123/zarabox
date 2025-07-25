@@ -4,6 +4,7 @@
     use App\Controllers\Category\Category;
     use App\Helpers\Paginator;
     $page_name = "categories.show";
+    $category = new Category();
 ?>
 
     <div class="container">
@@ -24,15 +25,11 @@
                                 <div class="card-body p-1 mt-3 add-new-service overflow-auto">
                                     <?php
                                         if(isset($_GET['action']) && isset($_GET['id']) && is_numeric($_GET['id'])):
-                                            // if($_GET['action'] === 'restore'):
-                                            //     require dirname(__DIR__).'/../classes/Employees.php';
-                                            //     $datas = new Employees();
-                                            //     $datas->_restoreAccount($_GET['id'], $url, $_SESSION['token']);
-                                            // elseif($_GET['action'] === 'disable'):
-                                            //     require dirname(__DIR__).'/../classes/Employees.php';
-                                            //     $datas = new Employees();
-                                            //     $datas->_disableAccount($_GET['id'], $url, $_SESSION['token']);
-                                            // endif;
+                                            if (isset($_GET['action']) && isset($_GET['id'])) {
+                                                if ($_GET['action'] == 'delete') {
+                                                    $category->delete($_SESSION['token']);
+                                                }
+                                            }
                                         endif;
                                         $paginator = new Paginator("categories", 10);
                                         $data = $statement->select("*", "`categories`", "fetchAll", "", "LIMIT ".$paginator->start.", ".$paginator->limit."");

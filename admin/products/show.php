@@ -1,10 +1,10 @@
 <?php
     $page_title = "لوحة التحكم | الأقسام";
     require("../init.php");
-    use App\Controllers\Category\Category;
+    use App\Controllers\Product\Product;
     use App\Helpers\Paginator;
-    $page_name = "categories.show";
-    $category = new Category();
+    $page_name = "products.show";
+    $product = new Product();
 ?>
 
     <div class="container">
@@ -27,19 +27,27 @@
                                         if(isset($_GET['action']) && isset($_GET['id']) && is_numeric($_GET['id'])):
                                             if (isset($_GET['action']) && isset($_GET['id'])) {
                                                 if ($_GET['action'] == 'delete') {
-                                                    $category->delete($_SESSION['token']);
+                                                    $product->delete($_SESSION['token']);
                                                 }
                                             }
                                         endif;
-                                        $paginator = new Paginator("categories", 10);
-                                        $data = $statement->select("*", "`categories`", "fetchAll", "", "LIMIT ".$paginator->start.", ".$paginator->limit."");
+                                        $paginator = new Paginator("products", 10);
+                                        $data = $statement->getJoinData(
+                                            "`products`.*, `categories`.name_ar AS category_name",
+                                            "`products`",
+                                            "INNER JOIN `categories` ON `categories`.id = `products`.category",
+                                            "fetchAll",
+                                            "",
+                                            "LIMIT ".$paginator->start.", ".$paginator->limit.""
+                                        );
                                         if($data['rowCount'] > 0):
                                     ?>
                                             <table class="table table-striped text-center tb-show">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">اسم القسم عربي</th>
-                                                        <th scope="col">اسم القسم إنجليزي</th>
+                                                        <th scope="col">اسم المنتج</th>
+                                                        <th scope="col">القسم</th>
+                                                        <th scope="col">السعر</th>
                                                         <th scope="col">تاريخ الإضافة</th>
                                                         <th scope="col">التحكم</th>
                                                     </tr>
@@ -48,8 +56,9 @@
                                                     
                                                     <?php foreach($data['fetchAll'] as $data): ?>
                                                         <tr>
-                                                            <td><?= $data['name_ar'] ?></td>
-                                                            <td><?= $data['name_en'] ?></td>
+                                                            <td><?= $data['name'] ?></td>
+                                                            <td><?= $data['category_name'] ?></td>
+                                                            <td><?= $data['price'] ?></td>
                                                             <td><?= $data['created_at'] ?></td>
                                                             <td>
                                                                 <a href="view?id=<?= $data['id'] ?>">
@@ -58,7 +67,7 @@
                                                                 <a href="update?id=<?= $data['id'] ?>">
                                                                     <button class="btn btn-default bg-primary p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-edit"></span></button>
                                                                 </a>
-                                                                <a href="?action=delete&id=<?= $data['id'] ?>" onclick="_confirm(event, 'هل أنت متأكد من حذف القسم ؟')">
+                                                                <a href="?action=delete&id=<?= $data['id'] ?>" onclick="_confirm(event, 'هل أنت متأكد من حذف المنتج ؟')">
                                                                     <button class="btn btn-default bg-danger p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-trash"></span></button>
                                                                 </a>
                                                             </td>

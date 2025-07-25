@@ -4,6 +4,7 @@ namespace App\Controllers\Product;
 
 use App\Database\Connection;
 use App\Helpers\Statement;
+use App\Helpers\fileSystem;
 use App\Helpers\Uploader;
 use App\Helpers\Alert;
 
@@ -13,13 +14,15 @@ class Product
     protected $alert;
     protected $statement;
     protected $uploader;
+    protected $fileSystem;
 
     public function __construct()
     {
-        $this->conn     = (new Connection())->DB;
-        $this->alert    = new Alert();
-        $this->uploader = new Uploader();
-        $this->statement= new Statement();
+        $this->conn         = (new Connection())->DB;
+        $this->alert        = new Alert();
+        $this->uploader     = new Uploader();
+        $this->statement    = new Statement();
+        $this->fileSystem   = new fileSystem();
     }
 
     public function index()
@@ -111,9 +114,28 @@ class Product
         }
     }
 
-    public function delete()
+    public function delete($token)
     {
-        //
+        if (!isset($token) || $token != $_SESSION['token']) return false;
+        
+        $items = $this->statement->getJoinData(
+            "products.id, product_images.*",
+            "`products`", 
+            "LEFT JOIN `product_images` ON `product_images`.product = `products`.id",
+            "fetchAll",
+            "WHERE `products`.id = ".$_GET['id']."",
+            ""
+        );
+        if($items['rowCount'] > 0){
+            $delete = $this->conn->prepare("DELETE FROM `products` WHERE `id` = ? LIMIT 1");
+            $delete->execute([$_GET['id']]);
+            if($delete->rowCount() == 1){
+                $this->alert->push('تم حذف القسم بنجاح');
+                foreach($items['fetchAll'] as $item){
+                    $this->fileSystem->remove(PUBLIC_PATH.'/uploads/products/'.$item['image']);
+                }
+            }
+        }
     }
 
     public function update()

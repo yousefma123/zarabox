@@ -17,12 +17,12 @@
           try {
               $mail->SMTPDebug = 0;                      
               $mail->isSMTP();                                            
-              $mail->Host       = 'smtp.gmail.com';                     
+              $mail->Host       = $_ENV['MAIL_HOST'];                     
               $mail->SMTPAuth   = true;                          
-              $mail->Username   = 'testmailer525@gmail.com';                
-              $mail->Password   = 'chxptuxvwmtomlpr';                              
+              $mail->Username   = $_ENV['MAIL_USER'];                
+              $mail->Password   = $_ENV['MAIL_PASS'];                              
               $mail->SMTPSecure = 'PHPMailer::ENCRYPTION_SMTPS';            
-              $mail->Port       = 587;                                   
+              $mail->Port       = $_ENV['MAIL_PORT'];                                   
               $mail->CharSet = 'utf-8';
               $mail->setFrom($sender_email, $full_name);
               if(gettype($recipter_email) == 'array'){

@@ -1,3 +1,11 @@
+function _confirm(event, message)
+{
+    const popup = confirm(message);
+    if(!popup){
+        event.preventDefault();
+    }
+    return false;
+}
 function _toggle_customer_sidebar()
 {
     const customer_sidebar  = document.getElementById('customer-sidebar');

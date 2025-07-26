@@ -99,6 +99,7 @@ class Product
     {
         $insert = $this->conn->prepare("INSERT INTO `product_images` (`product`, `image`) VALUES(?, ?)");
         foreach($_FILES['images']['tmp_name'] as $key => $file){
+            if (empty($_FILES['images']['tmp_name'][$key])) continue;
             $file_array = [
                 "name"      => $_FILES['images']['name'][$key],
                 "size"      => $_FILES['images']['size'][$key],
@@ -140,6 +141,99 @@ class Product
 
     public function update()
     {
-        //
+        $errors = [];
+        $name       = trim(strip_tags($_POST['name']));
+        $price      = trim(strip_tags($_POST['price']));
+        $description= trim(strip_tags($_POST['description']));
+
+        if (!isset($name) || empty($name)) {
+            $errors[] .= "Please add name";
+        }
+
+        if (!isset($price) || !is_numeric($price)) {
+            $errors[] .= "Please add name";
+        }
+
+        if (!isset($description) || empty($description)) {
+            $errors[] .= "Please add description";
+        }
+
+        $imagesWillDelete = array();
+
+        $check = true;
+
+        if (count($_FILES['images']['tmp_name']) > 0 && count($_FILES['images']['tmp_name']) <= 5):
+            foreach($_FILES['images']['tmp_name'] as $key => $image):
+                if (isset($_POST['image_ids'][$key])):
+                    if (!empty($_FILES['images']['tmp_name'][$key])):
+                        array_push($imagesWillDelete, $_POST['image_ids'][$key]);
+                        $check = true;
+                    else:
+                        $check = false;
+                    endif;
+                else:
+                    if (!isset($_FILES['images']['tmp_name'][$key]) || empty($_FILES['images']['tmp_name'][$key])):
+                        $check = false;
+                    else:
+                        $check = true;
+                    endif;
+                endif;
+    
+                if (!$check) continue;
+    
+                $file_array = [
+                    "name"      => $_FILES['images']['name'][$key],
+                    "size"      => $_FILES['images']['size'][$key],
+                    "tmp_name"  => $_FILES['images']['tmp_name'][$key]
+                ];
+                $checkImage = $this->uploader->check(
+                    $file_array,
+                    1000000,
+                    ['jpg', 'jpeg', 'png', 'svg', 'webp']
+                );
+                if(!$checkImage){
+                    $errors[] .= $this->uploader->message;
+                } else {
+    
+                }
+                $check = true;
+            endforeach;
+        else:
+            $errors[] .= "Images must be <= 5";
+        endif;
+
+        if (empty($errors)) {
+            
+            $newImage = self::uploadImages($_GET['id'], $_FILES['images']);
+
+            if (!empty($imagesWillDelete)) {
+                $oldImage = self::deleteImages($imagesWillDelete);
+            }
+
+            $update = $this->conn->prepare("UPDATE `products` SET `name` = ?, `price` = ?, `description` = ? WHERE `id` = ? LIMIT 1");
+            $update->execute([
+                $name,
+                $price,
+                $description,
+                $_GET['id']
+            ]);
+            if ($update->rowCount() == 1) {
+                $this->alert->push('تم تعديل المنتج بنجاح');
+            }
+        } else {
+            $this->alert->push($errors[0], 'error');
+        }
+    }
+
+    protected function deleteImages(Array $images): Bool
+    {
+        $images = implode(',', $images);
+        $stmt = $this->statement->select("`image`", "`product_images`", "fetchAll", "WHERE `id` IN ($images)");
+        foreach($stmt['fetchAll'] as $image):
+            $this->fileSystem->remove(PUBLIC_PATH . '/uploads/products/'.$image['image']);
+        endforeach;
+        $delete = $this->conn->prepare("DELETE FROM `product_images` WHERE `id` IN (?)");
+        $delete->execute([$images]);
+        return true;
     }
 }

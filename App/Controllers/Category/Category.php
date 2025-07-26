@@ -47,9 +47,7 @@
                 if(!$checkCover){
                     $errors[] .= $this->uploader->message;
                 }
-            } else {
-                $errors[] .= "Please upload cover";
-            }
+            } 
 
             if (empty($errors)) {
                 $this->uploader->store(
@@ -69,6 +67,57 @@
                 $this->alert->push($errors[0], 'error');
             }
         }
+
+        public function update()
+    {
+        $errors = [];
+        $name_ar= trim(strip_tags($_POST['name_ar']));
+        $name_en= trim(strip_tags($_POST['name_en']));
+        $cover  = $_POST['oldCover'] ?? null;
+
+        if (!isset($name_ar) || empty($name_ar)) {
+            $errors[] .= "Please add arabic name";
+        }
+
+        if (!isset($name_en) || empty($name_en)) {
+            $errors[] .= "Please add english name";
+        }
+
+        if(isset($_FILES['cover']['tmp_name']) && !empty($_FILES['cover']['tmp_name'])){
+            $checkCover = $this->uploader->check(
+                $_FILES['cover'],
+                1000000,
+                ['jpg', 'jpeg', 'png', 'svg', 'webp']
+            );
+            if(!$checkCover){
+                $errors[] .= $this->uploader->message;
+            } else {
+                $newImage = true;
+            }
+        } 
+
+        if (empty($errors)) {
+            if (isset($newImage)) {
+                $this->uploader->store(
+                    $_FILES['cover'],
+                    PUBLIC_PATH . '/uploads/categories'
+                );
+                if ($this->uploader->status) $cover = $this->uploader->name;
+            }
+            $update = $this->conn->prepare("UPDATE `categories` SET `name_ar` = ?, `name_en` = ?, `cover` = ? WHERE `id` = ? LIMIT 1");
+            $update->execute([
+                $name_ar,
+                $name_en,
+                $cover,
+                $_GET['id']
+            ]);
+            if ($update->rowCount() == 1) {
+                $this->alert->push('تم تعديل القسم بنجاح');
+            }
+        } else {
+            $this->alert->push($errors[0], 'error');
+        }
+    }
 
         public function delete($token)
         {

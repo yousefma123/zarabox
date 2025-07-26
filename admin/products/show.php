@@ -1,5 +1,5 @@
 <?php
-    $page_title = "لوحة التحكم | الأقسام";
+    $page_title = "لوحة التحكم | المنتجات";
     require("../init.php");
     use App\Controllers\Product\Product;
     use App\Helpers\Paginator;
@@ -19,7 +19,7 @@
                         <div class="col-md-12 mb-3">
                             <div class="card rounded-4 p-4 h-100">
                                 <div class="card-title mb-1 text-center mt-2">
-                                    <h5 class="fw-bold card-title-header">الأقسام</h5>
+                                    <h5 class="fw-bold card-title-header">المنتجات</h5>
                                 </div>
                                 
                                 <div class="card-body p-1 mt-3 add-new-service overflow-auto">
@@ -80,7 +80,7 @@
 
                                     <?php 
                                         else:
-                                            echo '<div class="alert alert-warning rounded-4 shadow-sm">لا يوجد أقسام تمت إضافتها مسبقا</div>';
+                                            echo '<div class="alert alert-warning rounded-4 shadow-sm">لا يوجد منتجات تمت إضافتها مسبقا</div>';
                                         endif; 
                                     ?>
                                 </div>

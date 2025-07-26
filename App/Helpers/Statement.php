@@ -2,6 +2,7 @@
 
     namespace App\Helpers;
     use App\Database\Connection;
+    use PDO;
 
     class Statement {
 
@@ -20,13 +21,13 @@
               case "fetch":
                 return [
                   "rowCount"  => $stmt->rowCount(),
-                  "fetch"     => $stmt->fetch(),
+                  "fetch"     => $stmt->fetch(PDO::FETCH_ASSOC),
                 ];
                 break;
               case "fetchAll":
                 return [
                   "rowCount" => $stmt->rowCount(),
-                  "fetchAll" => $stmt->fetchAll(),
+                  "fetchAll" => $stmt->fetchAll(PDO::FETCH_ASSOC),
                 ];
                 break;
               }

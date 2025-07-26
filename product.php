@@ -2,8 +2,6 @@
     $settings = true;
     $page_title = "ZaraBox";
     require('init.php');
-    require("public/components/header.php");
-    include('public/components/navbar.php');
 ?>
 
     <section class="details">

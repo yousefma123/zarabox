@@ -3,9 +3,6 @@
     use App\Helpers\Statement;
     $page_title = "لوحة التحكم | الرئيسية";
     $page_name = "home";
-    $dash = true;
-    require( PUBLIC_PATH . '/components/dashboard/header.php' );
-    include( PUBLIC_PATH . '/components/dashboard/navbar.php' );
     $statement = new Statement();
 ?>
 
@@ -29,7 +26,7 @@
                                             <img class="rounded-circle" widht="65" height="65" src="<?= public_url('uploads/logos/') . $statement->select('value', 'settings', 'fetch', "WHERE `key` = 'logo'")['fetch']['value'] ?>" alt="ZaraBox">
                                             <div class="mt-2">
                                                 <h5 class="fw-bold card-title-header mb-1">ZaraBox Store</h5>
-                                                <a href="#" class="card-title-header fs-7">admin@zarabox.com</a>
+                                                <a href="#" class="card-title-header fs-7"><?= $myData['email'] ?></a>
                                             </div>
                                         </div>
                                         <div class="flex-shrink-0">
@@ -39,12 +36,12 @@
                                     </div>
                                     <div class="row mt-3">
                                         <div class="col-md-4 col-4">
-                                             <span class="fs-5 card-title-header fw-bold ms-1"><?= @number_format($statement->select("COUNT(`id`)", "`branches`", "fetch")['fetch']['COUNT(`id`)']) ?></span> 
-                                             <span class="text-muted">منتجات</span>
+                                             <span class="fs-5 card-title-header fw-bold ms-1"><?= number_format($statement->select("COUNT(`id`)", "`categories`", "fetch")['fetch']['COUNT(`id`)']) ?></span> 
+                                             <span class="text-muted">قسم</span>
                                         </div>
                                         <div class="col-md-4 col-4">
-                                             <span class="fs-5 card-title-header fw-bold ms-1"><?= @number_format($statement->select("COUNT(`id`)", "`job_applications`", "fetch")['fetch']['COUNT(`id`)']) ?></span> 
-                                             <span class="text-muted">طلبات</span>
+                                             <span class="fs-5 card-title-header fw-bold ms-1"><?= number_format($statement->select("COUNT(`id`)", "`products`", "fetch")['fetch']['COUNT(`id`)']) ?></span> 
+                                             <span class="text-muted">منتج</span>
                                         </div>
                                     </div>
                                 </div>

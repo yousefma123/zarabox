@@ -4,7 +4,7 @@ namespace App\Controllers\Product;
 
 use App\Database\Connection;
 use App\Helpers\Statement;
-use App\Helpers\fileSystem;
+use App\Helpers\FileSystem;
 use App\Helpers\Uploader;
 use App\Helpers\Alert;
 
@@ -22,7 +22,7 @@ class Product
         $this->alert        = new Alert();
         $this->uploader     = new Uploader();
         $this->statement    = new Statement();
-        $this->fileSystem   = new fileSystem();
+        $this->fileSystem   = new FileSystem();
     }
 
     public function index()
@@ -36,6 +36,8 @@ class Product
         $name       = trim(strip_tags($_POST['name']));
         $price      = trim(strip_tags($_POST['price']));
         $description= trim(strip_tags($_POST['description']));
+        $sizeType   = trim(strip_tags($_POST['size_type']));
+        $sizes      = $_POST['sizes'];
 
         $checkCat = $this->statement->select("id", "`categories`", "fetch", "WHERE `id` = ".$_POST['category']."");
         if ($checkCat['rowCount'] == 0) {
@@ -48,6 +50,14 @@ class Product
 
         if (!isset($price) || !is_numeric($price)) {
             $errors[] .= "Please add name";
+        }
+
+        if (!isset($sizeType) || !is_numeric($sizeType)) {
+            $errors[] .= "Please add size type";
+        }
+
+        if (!isset($sizes) || empty($sizes)) {
+            $errors[] .= "Please add sizes";
         }
 
         if (!isset($description) || empty($description)) {
@@ -79,11 +89,13 @@ class Product
         }
 
         if (empty($errors)) {
-            $insert = $this->conn->prepare("INSERT INTO `products` (`category`, `name`, `price`, `description`) VALUES(?, ?, ?, ?)");
+            $insert = $this->conn->prepare("INSERT INTO `products` (`category`, `name`, `price`, `sizeType`, `sizes`, `description`) VALUES(?, ?, ?, ?, ?, ?)");
             $insert->execute([
                 $_POST['category'],
                 $name,
                 $price,
+                $sizeType,
+                implode(',', $sizes),
                 $description
             ]);
             if ($insert->rowCount() == 1) {
@@ -95,56 +107,14 @@ class Product
         }
     }
 
-    protected function uploadImages($product, $files)
-    {
-        $insert = $this->conn->prepare("INSERT INTO `product_images` (`product`, `image`) VALUES(?, ?)");
-        foreach($_FILES['images']['tmp_name'] as $key => $file){
-            if (empty($_FILES['images']['tmp_name'][$key])) continue;
-            $file_array = [
-                "name"      => $_FILES['images']['name'][$key],
-                "size"      => $_FILES['images']['size'][$key],
-                "tmp_name"  => $_FILES['images']['tmp_name'][$key]
-            ];
-            $upload = $this->uploader->store(
-                $file_array,
-                PUBLIC_PATH . '/uploads/products'
-            );
-            if($upload){
-                $insert->execute(array($product, $this->uploader->name));
-            }
-        }
-    }
-
-    public function delete($token)
-    {
-        if (!isset($token) || $token != $_SESSION['token']) return false;
-        
-        $items = $this->statement->getJoinData(
-            "products.id, product_images.*",
-            "`products`", 
-            "LEFT JOIN `product_images` ON `product_images`.product = `products`.id",
-            "fetchAll",
-            "WHERE `products`.id = ".$_GET['id']."",
-            ""
-        );
-        if($items['rowCount'] > 0){
-            $delete = $this->conn->prepare("DELETE FROM `products` WHERE `id` = ? LIMIT 1");
-            $delete->execute([$_GET['id']]);
-            if($delete->rowCount() == 1){
-                $this->alert->push('تم حذف القسم بنجاح');
-                foreach($items['fetchAll'] as $item){
-                    $this->fileSystem->remove(PUBLIC_PATH.'/uploads/products/'.$item['image']);
-                }
-            }
-        }
-    }
-
     public function update()
     {
         $errors = [];
         $name       = trim(strip_tags($_POST['name']));
         $price      = trim(strip_tags($_POST['price']));
         $description= trim(strip_tags($_POST['description']));
+        $sizeType   = trim(strip_tags($_POST['size_type']));
+        $sizes      = $_POST['sizes'];
 
         if (!isset($name) || empty($name)) {
             $errors[] .= "Please add name";
@@ -152,6 +122,14 @@ class Product
 
         if (!isset($price) || !is_numeric($price)) {
             $errors[] .= "Please add name";
+        }
+
+        if (!isset($sizeType) || !is_numeric($sizeType)) {
+            $errors[] .= "Please add size type";
+        }
+
+        if (!isset($sizes) || empty($sizes)) {
+            $errors[] .= "Please add sizes";
         }
 
         if (!isset($description) || empty($description)) {
@@ -210,10 +188,12 @@ class Product
                 $oldImage = self::deleteImages($imagesWillDelete);
             }
 
-            $update = $this->conn->prepare("UPDATE `products` SET `name` = ?, `price` = ?, `description` = ? WHERE `id` = ? LIMIT 1");
+            $update = $this->conn->prepare("UPDATE `products` SET `name` = ?, `price` = ?, `sizeType` = ?, `sizes` = ?, `description` = ? WHERE `id` = ? LIMIT 1");
             $update->execute([
                 $name,
                 $price,
+                $sizeType,
+                implode(',', $sizes),
                 $description,
                 $_GET['id']
             ]);
@@ -222,6 +202,50 @@ class Product
             }
         } else {
             $this->alert->push($errors[0], 'error');
+        }
+    }
+
+    protected function uploadImages($product, $files)
+    {
+        $insert = $this->conn->prepare("INSERT INTO `product_images` (`product`, `image`) VALUES(?, ?)");
+        foreach($_FILES['images']['tmp_name'] as $key => $file){
+            if (empty($_FILES['images']['tmp_name'][$key])) continue;
+            $file_array = [
+                "name"      => $_FILES['images']['name'][$key],
+                "size"      => $_FILES['images']['size'][$key],
+                "tmp_name"  => $_FILES['images']['tmp_name'][$key]
+            ];
+            $upload = $this->uploader->store(
+                $file_array,
+                PUBLIC_PATH . '/uploads/products'
+            );
+            if($upload){
+                $insert->execute(array($product, $this->uploader->name));
+            }
+        }
+    }
+
+    public function delete($token)
+    {
+        if (!isset($token) || $token != $_SESSION['token']) return false;
+        
+        $items = $this->statement->getJoinData(
+            "products.id, product_images.*",
+            "`products`", 
+            "LEFT JOIN `product_images` ON `product_images`.product = `products`.id",
+            "fetchAll",
+            "WHERE `products`.id = ".$_GET['id']."",
+            ""
+        );
+        if($items['rowCount'] > 0){
+            $delete = $this->conn->prepare("DELETE FROM `products` WHERE `id` = ? LIMIT 1");
+            $delete->execute([$_GET['id']]);
+            if($delete->rowCount() == 1){
+                $this->alert->push('تم حذف القسم بنجاح');
+                foreach($items['fetchAll'] as $item){
+                    $this->fileSystem->remove(PUBLIC_PATH.'/uploads/products/'.$item['image']);
+                }
+            }
         }
     }
 
@@ -237,3 +261,4 @@ class Product
         return true;
     }
 }
+

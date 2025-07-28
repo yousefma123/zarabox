@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/bootstrap.min.css">
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/all.min.css">
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/pe-icons.css">
+    <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/slim-selector.css">
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/dashboard.css">
 </head>
 <body>

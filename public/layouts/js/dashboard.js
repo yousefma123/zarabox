@@ -1,3 +1,4 @@
+let slim = null;
 function _confirm(event, message)
 {
     const popup = confirm(message);
@@ -40,4 +41,49 @@ function _upload_files(elem, recipter, types_allowd, _label, _check_count = null
             return false;
         }
     }
+}
+
+function _add_other_inputs()
+{
+    const addNewInput       = document.getElementById('addNewInput');
+    let _newCol             = document.createElement('div');
+    _newCol1.innerHTML      = 
+    `
+        <input type="text" name="sizes[]" class="form-control mt-3 rounded-4 bg-ddd" placeholder="المقاس - size">
+    `;
+    addNewInput.appendChild(_newCol);
+}
+
+const fetchSizes = (val) => {
+    fetch(SIZES_URL + val)
+    .then((response) => {
+        if (!response.ok) throw new Error('Error in url');
+        return response.json();
+    }).then((data) => {
+        const input = document.getElementById('sizes');
+        input.innerHTML = '';
+        if (data.length == 0) return alert('لا يوجد مقاسات مضافة لهذا النوع بعد');
+        data.forEach( item => {
+            input.innerHTML += `<option value="${item.id}">${item.name}</option>`;
+        })
+        if (slim) slim.destroy();
+        slimSelector();
+    }).catch((err) => {
+        console.log(err);
+    });
+}
+
+window.onload = () => {
+    slimSelector();
+}
+const slimSelector = () => {
+    slim = new SlimSelect({
+        select: '#sizes',
+        allowDeselect: true,
+        allowDeselectOption: true,
+        closeOnSelect: false,
+        selectAll: true,
+        deselectLabel: '<span class="removeItemFromSelect me-2">✖</span>',
+        searchPlaceholder: 'ابحث عن مقاس',
+    });
 }

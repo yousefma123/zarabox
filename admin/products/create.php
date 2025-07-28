@@ -46,6 +46,24 @@
                                                             <?php endforeach; ?>
                                                         </select>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <label class="fs-7 fw-bold" for="">نوع المقاس *</label>
+                                                        <select name="size_type" class="form-control bg-ddd" onchange="fetchSizes(this.value)">
+                                                            <option value="">اختر النوع</option>
+                                                            <?php 
+                                                                $types = $statement->select("id, name", "size_types", "fetchAll");
+                                                                foreach($types['fetchAll'] as $type):
+                                                            ?>
+                                                            <option value="<?= $type['id'] ?>"><?= $type['name'] ?></option>
+                                                            <?php endforeach; ?>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label class="fs-7 fw-bold" for="sizes"> الأحجام *</label>
+                                                        <select name="sizes[]" class="rounded-4 mt-3" id="sizes" multiple required>
+                                                            <option data-placeholder="true" value="">اختر الأحجام المتوفرة للمنتج</option>
+                                                        </select>
+                                                    </div>
                                                     <div class="col-md-12">
                                                         <label class="fs-7 fw-bold" for="">سعر المنتج *</label>
                                                         <input type="number" name="price" class="form-control mt-3 rounded-4 bg-ddd" placeholder="السعر" required>
@@ -78,6 +96,11 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        const SIZES_URL = `<?= $_ENV['WEB_URL'] ?>/App/Controllers/Size/Size.php?fetchSizes=1&type=`
+    </script>
 
 
 <?php 

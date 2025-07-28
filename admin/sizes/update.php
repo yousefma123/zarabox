@@ -51,28 +51,6 @@
                                                         <label class="fs-7 fw-bold" for="">سعر المنتج *</label>
                                                         <input type="number" name="price" class="form-control mt-3 rounded-4 bg-ddd" placeholder="السعر" value="<?= (int) $product['price'] ?>" required>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <label class="fs-7 fw-bold" for="">نوع المقاس *</label>
-                                                        <select name="size_type" class="form-control bg-ddd" onchange="fetchSizes(this.value)">
-                                                            <?php 
-                                                                $types = $statement->select("id, name", "size_types", "fetchAll");
-                                                                foreach($types['fetchAll'] as $type):
-                                                            ?>
-                                                            <option value="<?= $type['id'] ?>" <?= $type['id'] == $product['sizeType'] ? 'selected' : ''; ?>><?= $type['name'] ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <label class="fs-7 fw-bold" for="sizes"> الأحجام *</label>
-                                                        <select name="sizes[]" class="rounded-4 mt-3" id="sizes" multiple required>
-                                                            <?php 
-                                                                $sizes = $statement->select("id, name", "sizes", "fetchAll", "WHERE `type` = ".$product['sizeType']."");
-                                                                foreach($sizes['fetchAll'] as $size):
-                                                            ?>
-                                                            <option value="<?= $size['id'] ?>" <?= in_array($size['id'], explode(',', $product['sizes'])) ? 'selected' : ''; ?>><?= $size['name'] ?></option>
-                                                            <?php endforeach; ?>
-                                                        </select>
-                                                    </div>
                                                     <div class="col-md-12">
                                                         <label class="fs-7 fw-bold" for=""> وصف المنتج *</label>
                                                         <textarea name="description" class="form-control bg-ddd" rows="7" placeholder="وصف المنتج"><?= $product['description'] ?></textarea>
@@ -116,10 +94,6 @@
             </div>
         </div>
     </div>
-    
-    <script>
-        const SIZES_URL = `<?= $_ENV['WEB_URL'] ?>/App/Controllers/Size/Size.php?fetchSizes=1&type=`
-    </script>
 
 <?php 
     include PUBLIC_PATH . '/components/dashboard/footer.php';

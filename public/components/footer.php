@@ -40,7 +40,7 @@
         <script>
         $(".owl-items").owlCarousel({
             loop: false,
-            margin: 15,
+            margin: 20,
             nav: true,
             dots: false,
             autoplay: true,

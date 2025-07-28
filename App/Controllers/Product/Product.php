@@ -16,6 +16,8 @@ class Product
     protected $uploader;
     protected $fileSystem;
 
+    public $data = null;
+
     public function __construct()
     {
         $this->conn         = (new Connection())->DB;
@@ -25,9 +27,51 @@ class Product
         $this->fileSystem   = new FileSystem();
     }
 
-    public function index()
+    public function single()
     {
-        //
+        if(isset($_GET['id']) && is_numeric($_GET['id'])):
+            $stmt = $this->statement->getJoinData(
+                "`products`.*, `product_images`.image",
+                "`products`",
+                "INNER JOIN `product_images` ON `product_images`.product = `products`.id",
+                "fetchAll",
+                "WHERE `products`.id = ".$_GET['id'].""
+            );
+            if ($stmt['rowCount'] == 0): 
+                header('Location: 404.html');
+                exit;
+            endif;
+            $this->data = $stmt['fetchAll'][0];
+            $this->data['images']    = [];
+            foreach($stmt['fetchAll'] as $item):
+                array_push($this->data['images'], $item['image']);
+            endforeach;
+            $sizes = $this->statement->select("`id`, `name`", "`sizes`", "fetchAll", "WHERE `id` IN (".$stmt['fetchAll'][0]['sizes'].")");
+            $this->data['sizes'] = $sizes['fetchAll'];
+            unset($this->data['image']);
+        else:
+            header('Location: index');
+            exit;
+        endif;
+            
+    }
+
+    public function related()
+    {
+        $stmt = $this->statement->getJoinData(
+            "`products`.*, `product_images`.image",
+            "`products`",
+            "INNER JOIN (
+                SELECT MIN(id) AS id, product, image
+                FROM product_images
+                GROUP BY product
+            ) AS product_images ON product_images.product = products.id",
+            "fetchAll",
+            "WHERE `products`.category = ".$this->data['category']." AND `products`.id != ".$this->data['id'],
+            "LIMIT 8"
+        );
+
+        return $stmt;
     }
 
     public function create()

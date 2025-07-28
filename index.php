@@ -51,8 +51,8 @@
                 <div class="owl-carousel owl-items owl-theme">
                     <?php foreach($category['products'] as $product): ?>
                     <div class="item">
-                        <!-- <a href="<?= $_ENV['WEB_URL'] ?>/product?n=<?= str_replace([' ',',','.', '@','،'], '-', $product['name']) ?>&id=<?= $product['id'] ?>" class="category-item"> -->
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product?n=<?= str_replace([' ',',','.', '@','،'], '-', $product['name']) ?>&id=<?= $product['id'] ?>" class="category-item">
+                        <!-- <a href="#" class="category-item"> -->
                             <div class="overflow-hidden text-center">
                                 <img class="w-auto mx-auto" height="270" src="<?= public_url('uploads/products/'.$home->productImages($product['id'])[0]) ?>" alt="<?= $product['name'] ?>">
                             </div>

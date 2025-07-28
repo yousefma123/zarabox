@@ -56,7 +56,7 @@ const _closeCartTap = () => {
 const _openCartTap = () => {
   const div = document.querySelector('.added')
   $finalQuantity.innerText = finalQuantity
-  $finalSize.innerText = finalSize
+  $finalSize.innerText = document.getElementById(`size-text-${finalSize}`).innerText
   div.classList.add('active')
 }
 

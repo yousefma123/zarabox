@@ -2,77 +2,48 @@
     $settings = true;
     $page_title = "ZaraBox";
     require('init.php');
+    use App\Controllers\Product\Product;
+    $product = new Product();
+    $product->single();
 ?>
 
     <section class="details">
         <div class="show_images_clicked w-100 h-100 position-fixed justify-content-center align-items-center">
             <button class="btn btn-default fa fa-times" onclick="_displayBox()"></button>
-            <img src="" alt="بوابة الكفاءة">
+            <img src="" alt="">
         </div>
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
                     <div class="product_slider row">
                         <div class="right_images wow fadeInDown" data-wow-duration="1s" data-wow-delay="0s">
+                            <?php foreach($product->data['images'] as $image): ?>
                             <div class="one_image w-100 text-center mb-2 active" onclick="_getImage(this)">
-                                <img class="w-100 h-100" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_016.jpg?v=1740475063&width=360" alt="">
+                                <img class="w-100 h-100" src="<?= public_url("uploads/products/$image") ?>" alt="<?= $product->data['name'] ?>">
                             </div>
-                            <div class="one_image w-100 text-center mb-2" onclick="_getImage(this)">
-                                <img class="w-100 h-100" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_016.jpg?v=1740475063&width=360" alt="">
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                         <div class="left_images d-flex justify-content-center mx-auto text-center wow fadeInDown" data-wow-duration="1s" data-wow-delay=".2s">
-                            <img id="images_slider" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_016.jpg?v=1740475063&width=360" alt="">
+                            <img id="images_slider" src="<?= public_url("uploads/products/").$product->data['images'][0] ?>" alt="<?= $product->data['name'] ?>">
                         </div>
-                        <!-- <div class="col-12 text-left order_now wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
-                            <a href="#" class="btn btn-primary p-3 mt-4 shadow-sm" target="_blank">طلب المنتج</a>
-                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="item-details d-flex gap-1 flex-column position-relative">
-                        <h1 class="h2">تيشرت رجالي من زارا</h1>
-                        <div class="price fw500">LE <span id="$price" price="8167.56">8,167.56</span> EGP</div>
+                        <h1 class="h2"><?= $product->data['name'] ?></h1>
+                        <div class="price fw500">LE <span id="$price" price="<?= $product->data['price'] ?>"><?= number_format($product->data['price'], 0) ?></span> EGP</div>
                         <div class="fs-14 text-muted fw400"><u>خدمة الشحن</u> يتم احتسابها بعد تأكيد الطلب</div>
                         <form method="POST" onsubmit="_add_to_cart(event, this)">
                             <div class="fs-14 fw-400 my-3">اختر المقاس</div>
                             <div class="tem-size d-flex gap-3 flex-row flex-wrap">
+                                <?php foreach($product->data['sizes'] as $size): ?>
                                 <div>
-                                    <input type="radio" onchange="_clicked(this, 'radio', 'sizeType')" class="d-none sizeType" checked name="size" id="s-1" value="XS">
-                                    <label class="w-100 block-select rounded-5 select-services justify-content-center align-items-center flex-column active" for="s-1">
-                                        <span class="fw400">XS</span>
+                                    <input type="radio" onchange="_clicked(this, 'radio', 'sizeType')" class="d-none sizeType" name="size" id="s-<?= $size['id'] ?>" value="<?= $size['id'] ?>">
+                                    <label class="w-100 block-select rounded-5 select-services justify-content-center align-items-center flex-column" for="s-<?= $size['id'] ?>">
+                                        <span class="fw400" id="size-text-<?= $size['id'] ?>"><?= $size['name'] ?></span>
                                     </label>
                                 </div>
-                                <div>
-                                    <input type="radio" onchange="_clicked(this, 'radio', 'sizeType')" class="d-none sizeType" name="size" id="s-2" value="S">
-                                    <label class="w-100 block-select rounded-5 select-services justify-content-center align-items-center flex-column" for="s-2">
-                                        <span class="fw400">S</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" onchange="_clicked(this, 'radio', 'sizeType')" class="d-none sizeType" name="size" id="s-3" value="M">
-                                    <label class="w-100 block-select rounded-5 select-services justify-content-center align-items-center flex-column" for="s-3">
-                                        <span class="fw400">M</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" onchange="_clicked(this, 'radio', 'sizeType')" class="d-none sizeType" name="size" id="s-4" value="L">
-                                    <label class="w-100 block-select rounded-5 select-services justify-content-center align-items-center flex-column" for="s-4">
-                                        <span class="fw400">L</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" onchange="_clicked(this, 'radio', 'sizeType')" class="d-none sizeType" name="size" id="s-5" value="XL">
-                                    <label class="w-100 block-select rounded-5 select-services justify-content-center align-items-center flex-column" for="s-5">
-                                        <span class="fw400">XL</span>
-                                    </label>
-                                </div>
-                                <div>
-                                    <input type="radio" onchange="_clicked(this, 'radio', 'sizeType')" class="d-none sizeType" name="size" id="s-6" value="XXL">
-                                    <label class="w-100 block-select rounded-5 select-services justify-content-center align-items-center flex-column" for="s-6">
-                                        <span class="fw400">XXL</span>
-                                    </label>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                             <div class="fs-14 fw-400 mt-4 mb-3">الكمية</div>
                             <div class="d-flex">
@@ -93,10 +64,10 @@
                             </div>
                             <div class="d-flex gap-3 flex-row mt-4">
                                 <div>
-                                    <img class="border" width="100" height="100" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_016.jpg?v=1740475063&width=360" alt="img1">
+                                    <img class="border" width="100" height="100" src="<?= public_url("uploads/products/") . $product->data['images'][0] ?>" alt="<?= $product->data['name'] ?>">
                                 </div>
                                 <div class="d-flex gap-2 flex-column">
-                                    <h6 style="font-weight: 400;">تيشرت رجالي من زارا</h6>
+                                    <h6 style="font-weight: 400;"><?= $product->data['name'] ?></h6>
                                     <div class="fs-14">المقاس: <span id="$finalSize"></span></div>
                                     <div class="fs-14">الكمية: <span id="$finalQuantity"></span></div>
                                 </div>
@@ -110,91 +81,40 @@
                 </div>
             </div>
             <div class="item-description mt-5 text-muted">
-                مجموعتنا الجديدة من القمصان مستوحاة مباشرةً من أنماط تعود إلى ثلاثينيات القرن الماضي. لقد بحثنا عن أجود أنواع القطن لنقدم لكم خيارًا فريدًا لخزانة ملابسكم. صُنعت هذه القمصان في إنجلترا.
-                يتميز قميص كيلهام، المصنوع من قطن الكتان الليموني، بخصائص رئيسية. فهو ذو أكمام واحدة، وواجهة أمامية كاملة، وياقة متوسطة مدببة، مثالية للارتداء مع ربطة عنق أو بدونها.
-                تماشيًا مع أنماط أوائل القرن العشرين، تتميز القمصان بقصات واسعة عند الجسم والذراعين، مما يوفر ملاءمة أكثر مرونة وطولًا أطول.
+                <?= $product->data['description'] ?>
             </div>
         </div>
     </section>
 
-
+    <?php 
+        $related = $product->related();
+        if ($related['rowCount'] > 0):
+    ?>
     <section class="categories py-5 mt-3">
         <div class="container">
             <div class="category">
-                <h3 class="main-title mb-5">منتجات ذات صلة</h3>
+                <h3 class="main-title mb-4">منتجات ذات صلة</h3>
                 <div class="owl-carousel owl-items owl-theme">
+                    <?php foreach($related['fetchAll'] as $item): ?>
                     <div class="item">
-                        <a href="#" class="category-item">
+                        <a href="<?= $_ENV['WEB_URL'] ?>/product?n=<?= str_replace([' ',',','.', '@','،'], '-', $item['name']) ?>&id=<?= $item['id'] ?>" class="category-item">
                             <div class="overflow-hidden text-center">
-                                <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_045.jpg?v=1740393878&width=360" alt="img1">
+                                <img class="w-auto mx-auto" height="270" src="<?= public_url('uploads/products/'.$item['image']) ?>" alt="<?= $item['name'] ?>">
                             </div>
                             <div class="item-name mt-2 position-relative">
-                                <span>سترة إيفرت جامبر العادية</span>
+                                <span><?= strlen($item['name']) > 40 ? mb_substr($item['name'], 0, 40).'...' : $item['name']; ?></span>
                             </div>
                             <div class="item-prices mt-2 d-flex justify-content-start gap-3 align-items-center">
                                 <div class="before-price position-relative">
-                                    18,000 EGP
+                                    <?= number_format((110/100 * $item['price']), 2) ?> EGP
                                 </div>
                                 <div class="after-price fw-bold">
-                                    18,000 EGP
+                                    <?= number_format($item['price'], 2) ?> EGP
                                 </div>
                             </div>
                         </a>
                     </div>
-                    <div class="item">
-                        <a href="#" class="category-item">
-                            <div class="overflow-hidden text-center">
-                                <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_016.jpg?v=1740475063&width=360" alt="img1">
-                            </div>
-                            <div class="item-name mt-2 position-relative">
-                                <span>سترة إيفرت جامبر العادية</span>
-                            </div>
-                            <div class="item-prices mt-2 d-flex justify-content-start gap-3 align-items-center">
-                                <div class="before-price position-relative">
-                                    18,000 EGP
-                                </div>
-                                <div class="after-price fw-bold">
-                                    18,000 EGP
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="#" class="category-item">
-                            <div class="overflow-hidden text-center">
-                                <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_062.jpg?v=1738503166&width=360" alt="img1">
-                            </div>
-                            <div class="item-name mt-2 position-relative">
-                                <span>سترة إيفرت جامبر العادية</span>
-                            </div>
-                            <div class="item-prices mt-2 d-flex justify-content-start gap-3 align-items-center">
-                                <div class="before-price position-relative">
-                                    18,000 EGP
-                                </div>
-                                <div class="after-price fw-bold">
-                                    18,000 EGP
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="item">
-                        <a href="#" class="category-item">
-                            <div class="overflow-hidden text-center">
-                                <img class="w-auto mx-auto" height="270" src="https://www.stanleybiggs.co.uk/cdn/shop/files/Stanley_Biggs_Clothiers_029.jpg?v=1738503611&width=360" alt="img1">
-                            </div>
-                            <div class="item-name mt-2 position-relative">
-                                <span>سترة إيفرت جامبر العادية</span>
-                            </div>
-                            <div class="item-prices mt-2 d-flex justify-content-start gap-3 align-items-center">
-                                <div class="before-price position-relative">
-                                    18,000 EGP
-                                </div>
-                                <div class="after-price fw-bold">
-                                    18,000 EGP
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
                 <div class="mt-4 mt-md-5 d-flex justify-content-center align-items-center">
                     <a href="#" class="btn btn-default show-more rounded-0">عرض المزيد</a>
@@ -202,9 +122,9 @@
             </div>
         </div>
     </section>
+    <?php endif; ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
     <script>
         function _getImage(elem)
         {
@@ -230,6 +150,41 @@
             elem.nextElementSibling.classList.toggle('active')
         }
     </script>
+    <script>
+        window.onload = function(){
+            let slider = document.getElementById('images_slider'),
+                images = "<?= implode(',', $product->data['images']) ?>".split(','),
+                rights = document.querySelectorAll('.one_image'),
+                _count = 1;
+                // console.log(images)
+            setInterval(() => {
+                if(_count == images.length){
+                    _count = 0;
+                }
+                slider.setAttribute('src', "<?= public_url('uploads/products/') ?>"+images[_count]);
+                rights.forEach( (item) => {
+                    item.classList.remove('active');
+                });
+                rights[_count].classList.add('active');
+                _count ++;
+            }, 10000);
+        }
+        function _getImage(elem)
+        {
+            const imageSRC  = elem.querySelector('img').getAttribute('src');
+            const box       = document.querySelector('.show_images_clicked');
+            box.querySelector('img').setAttribute('src', imageSRC);
+            box.style.display = 'flex';
+            console.log(imageSRC);
+        }
+        function _displayBox()
+        {
+            const box   = document.querySelector('.show_images_clicked');  
+            box.style.display = 'none';
+        }
+    </script>
+
+    
 
     <script>
         // const PRODUCTID = 1;

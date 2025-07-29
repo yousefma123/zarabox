@@ -1,10 +1,14 @@
 <?php
     $settings = true;
-    $page_title = "ZaraBox";
+    $dynamicTitle = true;
     require('init.php');
     use App\Controllers\Product\Product;
     $product = new Product();
     $product->single();
+    $page_title = $product->data['name'];
+    $page_description = $product->data['description'];
+    require("public/components/header.php");
+    include('public/components/navbar.php');
 ?>
 
     <section class="details">
@@ -73,7 +77,7 @@
                                 </div>
                             </div>
                             <div class="buttons mt-4 d-flex gap-3 flex-column align-items-center">
-                                <a href="#" class="show-cart btn btn-default rounded-0 w-100 d-flex gap-2 align-items-center justify-content-center"><span class="pe pe-7s-cart h6 fw-bold m-0"></span> المواصلة إلى السلة</a>
+                                <a href="<?= $_ENV['WEB_URL'] ?>/cart" class="show-cart btn btn-default rounded-0 w-100 d-flex gap-2 align-items-center justify-content-center"><span class="pe pe-7s-cart h6 fw-bold m-0"></span> المواصلة إلى السلة</a>
                                 <div class="fs-14 pointer" onclick="_closeCartTap()"><u>متابعة التسوق</u></div>
                             </div>
                         </div>
@@ -125,6 +129,8 @@
     <?php endif; ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="<?= public_url('layouts/js') ?>/cart.js"></script>
+    
     <script>
         function _getImage(elem)
         {
@@ -190,14 +196,11 @@
         // const PRODUCTID = 1;
         const QtyInput = (() => {
             const $qtyInputs = $(".qty-input");
-
             if (!$qtyInputs.length) return;
-
             const $inputs = $qtyInputs.find(".product-qty");
             const $countBtn = $qtyInputs.find(".qty-count");
             const qtyMin = parseInt($inputs.attr("min"));
             const qtyMax = parseInt($inputs.attr("max"));
-
             $inputs.on("change", function () {
                 const $this = $(this);
                 const $minusBtn = $this.siblings(".qty-count--minus");
@@ -220,11 +223,9 @@
                 }
                 
             });
-
             $inputs.on("keyup", function () {
                 changePrice(this.value)
             })
-
             $countBtn.on("click", function () {
                 const operator = this.dataset.action;
                 const $this = $(this);
@@ -281,18 +282,56 @@
     </script>
 
     <script>
+        const addButton = document.querySelector('.addToCart button');
         const _add_to_cart = async ( event, form ) => {
             event.preventDefault();
-            document.querySelector('.addToCart button').setAttribute('disabled', '')
             const data = new FormData(form);
             let size        = data.get('size'),
                 quantity    = data.get('quantity'),
-                productID   = 1;
+                productID   = `<?= $product->data['id'] ?>`;
 
-            if (size != null && quantity != null) {
+            if (!size || !quantity) {
+                return _alert('برجاء تحديد المقاس والكمية قبل الطلب', 'error');
+            }
+
+            disableAddButton(true)
+            setTimeout( async () => {
+                const product = await checkProduct(productID, size)
+                if (!product) {
+                    _alert('حدث خطأ ما عند إضافة المنتج برجاء تحديث الصفحة', 'error')
+                    disableAddButton(false)
+                    return;
+                } 
                 if (await addToCart(productID, size, quantity)) {
+                    console.log(1)
                     return _openCartTap()
                 }
+            }, 500);
+        }
+    </script>
+
+
+    <script>
+        const checkProduct = async (product, size) => {
+            if (!product) return false;
+            const URL = `<?= $_ENV['WEB_URL'] ?>/App/Controllers/Product/Product?checkProduct=1&id=${product}&size=${size}`;
+            try {
+                const response = await fetch(URL);
+                if (!response.ok) throw new Error('Failed to send request');
+                return await response.json();
+            } catch (err) {
+                console.error(err);
+                return false;
+            }
+        };
+
+        const disableAddButton = ( status ) => {
+            if (status) {
+                addButton.innerHTML = '<span class="fa fa-spinner" style="font-size:20px;"></span>';
+                addButton.setAttribute('disabled', '')
+            } else {
+                addButton.innerHTML = 'إضافة إلى السلة';
+                addButton.removeAttribute('disabled')
             }
         }
     </script>

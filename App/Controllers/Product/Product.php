@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers\Product;
+require_once __DIR__ . '/../../../shared/bootstrap.php';
 
 use App\Database\Connection;
 use App\Helpers\Statement;
@@ -304,5 +305,14 @@ class Product
         $delete->execute([$images]);
         return true;
     }
+
+    public function check()
+    {
+        echo json_encode($this->statement->select("*", "`products`", "fetch", "WHERE `id` = ".$_GET['id']." AND FIND_IN_SET(".$_GET['size'].", `sizes`)")['fetch']);
+    }
 }
+
+if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['checkProduct'])):
+    $product = (new Product())->check();
+endif;
 

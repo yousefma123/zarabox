@@ -1,3 +1,4 @@
+
 const QtyInput = (() => {
 	const $qtyInputs = $(".qty-input");
 
@@ -70,10 +71,6 @@ const QtyInput = (() => {
 	});
 })();
 
-// const changePrice = (quantity) => {
-//     const price = Number($price.getAttribute('price')) * quantity
-//     $price.innerText = price.toLocaleString("en-US")
-// }
 
 
 document.querySelectorAll('.product-qty').forEach(input => {
@@ -93,36 +90,6 @@ document.querySelectorAll('.product-qty').forEach(input => {
     });
 });
 
-const _getPrice = (button, productID, quantity) => {
-    const parent        = button.parentElement.parentElement.parentElement
-    const priceWindow   = parent.querySelector('.price')
-    const spinner       = parent.querySelector('.fa-spinner')
-    // const priceWindow = button.parentElement.parentElement.parentElement.querySelector('.price span')
-    console.log(priceWindow)
-
-    priceWindow.classList.remove('active')
-    spinner.classList.add('active')
-
-    setTimeout( async () => {
-        const price = await _fetchPrice()
-    }, 1000)
-    // const price = Number(priceWindow.getAttribute('price')) * quantity
-    // priceWindow.innerText = price.toLocaleString("en-US")
-}
-  
-
-const _fetchPrice = async () => {
-    try {
-      const res = await fetch('https://api.example.com/data');
-      if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-      
-      const data = await res.json();
-      console.log(data);
-    } catch (err) {
-      console.error('Fetch failed:', err);
-    }
-};
-  
   
 // Input design
 

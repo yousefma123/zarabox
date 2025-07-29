@@ -1,18 +1,14 @@
 let finalQuantity = 0, finalSize = 0;
 const getCart = () => {
-    const cart = localStorage.getItem("cart");
-    return cart ? JSON.parse(cart) : [];
+    const stored = localStorage.getItem("cart");
+    return stored ? JSON.parse(stored) : [];
 };
 
 const saveCart = (cart) => {
     localStorage.setItem("cart", JSON.stringify(cart));
     
     const stored = localStorage.getItem("cart");
-    if (stored && stored === JSON.stringify(cart)) {
-        return true;
-    } else {
-        return false;
-    }
+    return stored && stored === JSON.stringify(cart);
 };
 
 const addToCart = (id, size, quantity = 1) => {
@@ -37,9 +33,9 @@ const addToCart = (id, size, quantity = 1) => {
 
 const removeFromCart = (id, size) => {
     const cart = getCart().filter(
-        item => !(item.id === id && item.size === size)
+        item => !(Number(item.id) === id && Number(item.size) === size)
     );
-
+    
     saveCart(cart);
 };
 
@@ -50,7 +46,7 @@ const clearCart = () => {
 const _closeCartTap = () => {
     const div = document.querySelector('.added')
     div.classList.remove('active')
-    document.querySelector('.addToCart button').removeAttribute('disabled')
+    disableAddButton(false)
 }
 
 const _openCartTap = () => {
@@ -60,6 +56,6 @@ const _openCartTap = () => {
   div.classList.add('active')
 }
 
-localStorage.clear();
+// localStorage.clear();
 
 

@@ -1,7 +1,6 @@
 <?php
     if(isset($settings)){
 ?>  
-
         <footer class="p-5 px-2">
             <div class="container d-flex justify-content-between align-items-center gap-3 flex-wrap">
                 <div class="footer-links d-flex gap-3 flex-wrap">
@@ -38,32 +37,48 @@
         <script src="<?= public_url('layouts/js') ?>/scripts.js"></script>
 
         <script>
-        $(".owl-items").owlCarousel({
-            loop: false,
-            margin: 20,
-            nav: true,
-            dots: false,
-            autoplay: true,
-            autoplayHoverPause: false, 
-            autoplayTimeout: 8000,
-            rtl: true,
-            responsive: {
-                0: {
-                    items: 1,
-                    stagePadding: 70
-                },
-                500: {
-                    items:2,
-                    stagePadding: 50
-                },
-                900: {
-                    items: 4,
-                    stagePadding: 0
+            $(".owl-items").owlCarousel({
+                loop: false,
+                margin: 20,
+                nav: true,
+                dots: false,
+                autoplay: true,
+                autoplayHoverPause: false, 
+                autoplayTimeout: 8000,
+                rtl: true,
+                responsive: {
+                    0: {
+                        items: 1,
+                        stagePadding: 70
+                    },
+                    500: {
+                        items:2,
+                        stagePadding: 50
+                    },
+                    900: {
+                        items: 4,
+                        stagePadding: 0
+                    }
+                    
                 }
-                
+            });
+            function _alert(text, clss, duration = 5000)
+            {
+                Toastify({
+                    text: text,
+                    className: clss,
+                    duration: duration,
+                    newWindow: true,
+                    close: false,
+                    gravity: 'top',
+                    position: 'left',
+                    stopOnFocus: true,
+                    style: {
+                        background: 'linear-gradient(to right, #00b09b, #96c93d)',
+                    },
+                }).showToast();
             }
-        });
-    </script>
+        </script>
         
     </body>
 </html>

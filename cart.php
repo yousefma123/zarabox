@@ -1,4 +1,5 @@
 <?php
+    ob_start();
     session_start();
     use App\Controllers\Cart\Cart;
     use App\Controllers\Order\Order;
@@ -424,4 +425,4 @@
     </script>
 
 
-<?php include('public/components/footer.php'); ?>
+<?php include('public/components/footer.php'); ob_end_flush(); ?>

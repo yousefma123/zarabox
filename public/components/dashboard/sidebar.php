@@ -15,6 +15,14 @@
                 </a>
             </li> -->
             <hr class="line-breek">
+            <span class="side-hint text-muted fs-7 p-2 pt-0 fw-bold">الطلبات والفواتير</span>
+            <li class="nav-item mb-1">
+                <a href="<?= $_ENV['WEB_URL'] ?>/admin/orders/show" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'orders.show' ?  'active' : '' ?>">
+                    <span class="fa fa-receipt ms-3"></span>
+                    الطلبات
+                </a>
+            </li>
+            <hr class="line-breek">
             <span class="side-hint text-muted fs-7 p-2 pt-0 fw-bold">الأقسام</span>
             <li class="nav-item mb-1">
                 <a href="<?= $_ENV['WEB_URL'] ?>/admin/categories/show" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'categories.show' ?  'active' : '' ?>">
@@ -40,14 +48,6 @@
                 <a href="<?= $_ENV['WEB_URL'] ?>/admin/products/create" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'products.create' ?  'active' : '' ?>">
                     <span class="fa fa-bars ms-3"></span>
                     إضافة
-                </a>
-            </li>
-            <hr class="line-breek">
-            <span class="side-hint text-muted fs-7 p-2 pt-0 fw-bold">الطلبات والفواتير</span>
-            <li class="nav-item mb-1">
-                <a href="<?= $_ENV['WEB_URL'] ?>/admin/orders/show" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'orders.show' ?  'active' : '' ?>">
-                    <span class="fa fa-receipt ms-3"></span>
-                    الطلبات
                 </a>
             </li>
         </ul>

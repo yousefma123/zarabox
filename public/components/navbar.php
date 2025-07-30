@@ -1,7 +1,7 @@
 <?php
     if(isset($settings)){
 ?>  
-    <header class="text-center d-flex align-items-center justify-content-between flex-lg-column flex-row gap-3 p-2 py-lg-4 py-0 h-auto position-relative">
+    <header class="text-center border-bottom d-flex align-items-center justify-content-between flex-lg-column flex-row gap-3 p-2 py-lg-4 py-0 h-auto position-relative">
         <div class="container d-flex justify-content-between align-items-center gap-3 d-lg-flex d-none w-100">
             <div class="navicons d-flex gap-3 align-items-center">
                 <a href="<?= $_ENV['WEB_URL'] ?>/cart">

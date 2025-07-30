@@ -43,8 +43,6 @@ class Telegram
 
         $context = stream_context_create($options);
         $result = file_get_contents($this->apiUrl, false, $context);
-        file_put_contents('telegram_message_debug.txt', $message);
-
 
         return $result !== false;
     }

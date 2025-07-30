@@ -37,10 +37,27 @@
                                  INNER JOIN products p ON oi.product_id = p.id",
                                 "fetch",
                                 "WHERE o.id = $id",
-                                "GROUP BY o.id, o.created_at",
+                                "GROUP BY o.id, o.created_at"
                             );
+                            
                             if($data['rowCount'] == 1):
-
+                                $items = $statement->getJoinData(
+                                    "p.name AS product_name,
+                                     (
+                                        SELECT pi.image 
+                                        FROM product_images pi 
+                                        WHERE pi.product = p.id 
+                                        ORDER BY pi.id ASC 
+                                        LIMIT 1
+                                     ) AS image,
+                                     oi.quantity,
+                                     oi.total,
+                                     oi.size",
+                                    "order_items oi",
+                                    "INNER JOIN products p ON oi.product_id = p.id",
+                                    "fetchAll",
+                                    "WHERE oi.order_id = $id"
+                                );
                     ?>
                                 <div class="col-12 mb-4 d-flex flex-wrap justify-content-between gap-2 align-items-center">
                                     <div class="h4 fw-bold"> 
@@ -111,6 +128,42 @@
                                         </div>
                                         <div class="card-body">
                                             <?= $data['fetch']['address'] ?>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 mb-3">
+                                    <div class="card rounded-5 p-4 h-100 task-card">
+                                        <div class="card-title mb-1 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                                            <h6 class="fw-bold card-title-header m-0">المنتجات</h6>
+                                        </div>
+                                        <div class="card-body">
+                                        <?php foreach ($items['fetchAll'] as $item): ?>
+                                            <div class="item d-flex justify-content-between align-items-center gap-md-3 gap-4 flex-wrap mt-4">
+                                                <div class="main-details d-flex gap-3 flex-row">
+                                                    <img class="border" width="100" height="100"
+                                                        src="<?= public_url('uploads/products/' . $item['image']) ?>" 
+                                                        alt="<?= htmlspecialchars($item['product_name']) ?>">
+                                                    <div class="d-flex flex-column gap-1">
+                                                        <a href="" class="h6 fw400"><?= htmlspecialchars($item['product_name']) ?></a>
+                                                        <div class="fw300 fs-14 pricePerOne" price="<?= (float)$item['total'] / (int)$item['quantity'] ?>">
+                                                            <?= number_format((float)$item['total'] / (int)$item['quantity']) ?> EGP
+                                                        </div>
+                                                        <div class="fw300 fs-14">المقاس: <?= htmlspecialchars($item['size']) ?></div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex gap-4 align-items-center">
+                                                    الكمية: <?= (int)$item['quantity'] ?>
+                                                </div>
+                                                <div class="position-relative">
+                                                    <div class="price active finalPrice">
+                                                        <span><?= number_format($item['total']) ?></span> EGP
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                        <?php endforeach; ?>
+
                                         </div>
                                     </div>
                                 </div>

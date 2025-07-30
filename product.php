@@ -11,7 +11,7 @@
     include('public/components/navbar.php');
 ?>
 
-    <section class="details">
+    <section class="details mt-5">
         <div class="show_images_clicked w-100 h-100 position-fixed justify-content-center align-items-center">
             <button class="btn btn-default fa fa-times" onclick="_displayBox()"></button>
             <img src="" alt="">

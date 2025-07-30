@@ -24,13 +24,13 @@
                                 
                                 <div class="card-body p-1 mt-3 add-new-service overflow-auto">
                                     <?php
-                                        // if(isset($_GET['action']) && isset($_GET['id']) && is_numeric($_GET['id'])):
-                                        //     if (isset($_GET['action']) && isset($_GET['id'])) {
-                                        //         if ($_GET['action'] == 'delete') {
-                                        //             $category->delete($_SESSION['token']);
-                                        //         }
-                                        //     }
-                                        // endif;
+                                        if(isset($_GET['action']) && isset($_GET['id']) && is_numeric($_GET['id'])):
+                                            if (isset($_GET['action']) && isset($_GET['id'])) {
+                                                if ($_GET['action'] == 'delete') {
+                                                    $order->delete($_SESSION['token']);
+                                                }
+                                            }
+                                        endif;
                                         $paginator = new Paginator("orders", 10);
                                         $data = $statement->getJoinData(
                                             "o.id, o.customer_name, o.city, o.governorate, o.created_at,
@@ -67,10 +67,8 @@
                                                                 <a href="view?id=<?= $data['id'] ?>">
                                                                     <button class="btn btn-default bg-primary p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-eye"></span></button>
                                                                 </a>
-                                                                <a href="update?id=<?= $data['id'] ?>">
-                                                                    <button class="btn btn-default bg-primary p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-edit"></span></button>
-                                                                </a>
-                                                                <a href="?action=delete&id=<?= $data['id'] ?>" onclick="_confirm(event, 'هل أنت متأكد من حذف القسم ؟')">
+                                            
+                                                                <a href="?action=delete&id=<?= $data['id'] ?>" onclick="_confirm(event, 'هل أنت متأكد من حذف الطلب ؟')">
                                                                     <button class="btn btn-default bg-danger p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-trash"></span></button>
                                                                 </a>
                                                             </td>
@@ -83,7 +81,7 @@
 
                                     <?php 
                                         else:
-                                            echo '<div class="alert alert-warning rounded-4 shadow-sm">لا يوجد أقسام تمت إضافتها مسبقا</div>';
+                                            echo '<div class="alert alert-warning rounded-4 shadow-sm">لا يوجد طلبات تمت إضافتها مسبقا</div>';
                                         endif; 
                                     ?>
                                 </div>

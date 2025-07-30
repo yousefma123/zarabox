@@ -244,9 +244,15 @@ class Order
     }
     
 
-    public function delete()
-    {
-        //
+    public function delete($token)
+        {
+            if (!isset($token) || $token != $_SESSION['token']) return false;
+        
+            $delete = $this->conn->prepare("DELETE FROM `orders` WHERE `id` = ? LIMIT 1");
+            $delete->execute([$_GET['id']]);
+            if($delete->rowCount() == 1){
+                $this->alert->push('تم حذف الطلب بنجاح');
+            }
     }
 
     public function update()

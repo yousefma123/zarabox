@@ -396,7 +396,7 @@
             $totalOrder.innerText = total.toLocaleString("en-US")
         }
         
-        setTimeout( () => { cart() }, 1)
+        setTimeout( () => { cart() }, 1500)
     </script>
 
     <script>
@@ -410,7 +410,7 @@
             inputs.forEach(input => {
                 if (!input.name) return;
                 const hidden = document.createElement('input');
-                hidden.type = 'text';
+                hidden.type = 'hidden';
                 hidden.name = input.name;
                 hidden.value = input.value;
                 hidden.classList.add('cloned-input'); 

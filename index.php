@@ -2,36 +2,17 @@
     $settings = true;
     $page_title = "ZaraBox";
     require('init.php');
-    use App\Controllers\Home\Home;
-    $home = new Home();
 ?>
-
-    <div id="carouselExampleFade" class="heroSlider carousel slide carousel-fade position-relative">
-        <div class="carousel-inner">
+    <section id="carouselExampleFade" class="heroSlider carousel slide carousel-fade position-relative">
+        <div class="carousel-inner  overflow-hidden">
+            <?php foreach($home->categories()['fetchAll'] as $cat): ?>
             <div class="carousel-item active position-relative">
                 <div class="category-name" style="z-index: 9999;">
-                    <a href="#" class="btn btn-default rounded-0">رجالي</a>
+                    <a class="btn btn-default rounded-0" href="<?= $_ENV['WEB_URL'] ?>/category?n=<?= str_replace([' ',',','.', '@','،'], '-', $cat['name_ar']) ?>&id=<?= $cat['id'] ?>"><?= $cat['name_ar'] ?></a>
                 </div>
-                <img src="<?= public_url('uploads/web/img1.jpg') ?>" class="d-block w-100" alt="img1">
+                <img src="<?= public_url('uploads/categories/' . $cat['cover']) ?>" class="d-block w-100" alt="<?= $cat['name_ar'] ?>">
             </div>
-            <div class="carousel-item position-relative">
-                <div class="category-name" style="z-index: 9999;">
-                    <a href="#" class="btn btn-default rounded-0">حريمي</a>
-                </div>
-                <img src="<?= public_url('uploads/web/img2.jpg') ?>" class="d-block w-100" alt="img2">
-            </div>
-            <div class="carousel-item position-relative">
-                <div class="category-name" style="z-index: 9999;">
-                    <a href="#" class="btn btn-default rounded-0">أطفال</a>
-                </div>
-                <img src="<?= public_url('uploads/web/img3.jpg') ?>" class="d-block w-100" alt="img3">
-            </div>
-            <div class="carousel-item position-relative">
-                <div class="category-name" style="z-index: 9999;">
-                    <a href="#" class="btn btn-default rounded-0">أحذية</a>
-                </div>
-                <img src="<?= public_url('uploads/web/img4.jpg') ?>" class="d-block w-100" alt="img4">
-            </div>
+            <?php endforeach; ?>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -41,7 +22,7 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
-    </div>
+    </section>
 
     <section class="categories py-5">
         <div class="container">

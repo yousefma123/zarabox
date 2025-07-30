@@ -45,7 +45,7 @@
             <hr class="line-breek">
             <span class="side-hint text-muted fs-7 p-2 pt-0 fw-bold">الطلبات والفواتير</span>
             <li class="nav-item mb-1">
-                <a href="<?= $_ENV['WEB_URL'] ?>/admin/orders/create" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'orders' ?  'active' : '' ?>">
+                <a href="<?= $_ENV['WEB_URL'] ?>/admin/orders/show" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'orders.show' ?  'active' : '' ?>">
                     <span class="fa fa-receipt ms-3"></span>
                     الطلبات
                 </a>

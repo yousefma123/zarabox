@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controllers\Order;
+require_once __DIR__ . '/../../../shared/bootstrap.php';
 
 use App\Database\Connection;
+use App\Controllers\Telegram\Telegram;
 use App\Helpers\Statement;
 use App\Helpers\Alert;
 use PDO;
@@ -12,12 +14,14 @@ class Order
     protected $conn;
     protected $statement;
     protected $alert;
+    protected $telegram;
 
     public function __construct()
     {
         $this->conn     = (new Connection())->DB;
         $this->statement= new Statement();
         $this->alert    = new Alert();
+        $this->telegram = new Telegram();
     }
 
     public function index()
@@ -130,9 +134,10 @@ class Order
                     (code, company, customer_name, email, phone, address, city, governorate, postalcode, total, created_at)
                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
                 ");
-            
+                
+                $code = self::generateCode();
                 $stmtOrder->execute([
-                    self::generateCode(), $company, $firstname.' '.$lastname, $email, $phone, $address, $city, $governorate, $postalcode, $total
+                    $code, $company, $firstname.' '.$lastname, $email, $phone, $address, $city, $governorate, $postalcode, $total
                 ]);
             
                 $order_id = $this->conn->lastInsertId();
@@ -163,6 +168,19 @@ class Order
                 $this->conn->commit();
             
                 $_SESSION['completed_order'] = $order_id;
+
+                $link = $_ENV['WEB_URL'] . '/admin/orders?id=' . $order_id;
+
+                $message = "✅ <b>لديك طلب جديد مكتمل</b>\n"
+                        . "<b>رقم الطلب:</b> #$code\n"
+                        . "<b>اسم العميل:</b> $firstname $lastname\n"
+                        . "<b>رقم الجوال:</b> <code>$phone</code>\n\n"
+                        . "<a href=\"$link\">🛒 متابعة الطلب</a>";
+
+                $this->telegram->newOrder($message);
+
+                header('Location: success');
+                exit;
             
             } catch (Exception $e) {
                 $pdo->rollBack();

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 28, 2025 at 11:41 AM
+-- Generation Time: Jul 31, 2025 at 07:22 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.28
 
@@ -41,7 +41,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `email`, `password`, `token`, `status`) VALUES
-(1, 'ZaraBox', 'admin@zarabox.com', '$2y$10$Odql3qLt2IAPCZCaAA7A4u07Axzu/5JGcJahU1CAOMObHS5KfXDoS', 'ccec570c848719206c20a1ad499809ac', 1);
+(1, 'ZaraBox', 'admin@zarabox.com', '$2y$10$Odql3qLt2IAPCZCaAA7A4u07Axzu/5JGcJahU1CAOMObHS5KfXDoS', 'd6748027aaba454b2f87767ddbf2af44', 1);
 
 -- --------------------------------------------------------
 
@@ -65,7 +65,43 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name_ar`, `name_en`, `cover`, `status`, `arrangement`, `created_at`) VALUES
 (61, 'الأثاث والديكورات222', 'ASd1sad1', '7a53a489deca92531753534819.jpg', 1, 0, '2025-07-26'),
-(62, 'قسم٢', 'Apple', '2ff710c29d6983b81753537197.jpg', 1, 0, '2025-07-26');
+(62, 'قسم٢', 'Apple', '2ff710c29d6983b81753537197.jpg', 1, 0, '2025-07-26'),
+(63, 'فساتين1', 'Dresses', 'e105a4f46023f17f1753697331.jpg', 1, 0, '2025-07-28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id` int(11) NOT NULL,
+  `code` varchar(50) DEFAULT NULL,
+  `customer_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `company` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `governorate` varchar(100) NOT NULL,
+  `postalcode` varchar(20) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `size` varchar(50) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `total` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -92,7 +128,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `category`, `name`, `price`, `description`, `sizeType`, `sizes`, `status`, `created_at`, `updated_at`) VALUES
 (197, 62, 'Youssef Ali', '123123.00', '1232', 2, '8,7,6', 1, '2025-07-27', '2025-07-27 13:08:56'),
-(198, 62, 'Youssef Ali', '12312.00', '3123123', 3, '14,13,12,11,10,9', 1, '2025-07-27', '2025-07-27 13:15:13');
+(198, 62, 'Youssef Ali', '12312.00', '3123123', 3, '14,13,12,11,10,9', 1, '2025-07-27', '2025-07-29 20:56:03');
 
 -- --------------------------------------------------------
 
@@ -205,6 +241,21 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `order_code` (`code`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `idx_order_items_order_id` (`order_id`),
+  ADD KEY `idx_order_items_product_id` (`product_id`);
+
+--
 -- Indexes for table `products`
 --
 ALTER TABLE `products`
@@ -251,7 +302,19 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
+
+--
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -286,6 +349,13 @@ ALTER TABLE `size_types`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `products`

@@ -6,7 +6,7 @@
             <div class="navicons d-flex gap-3 align-items-center">
                 <a href="<?= $_ENV['WEB_URL'] ?>/cart">
                     <span class="fa fa-box"></span>
-                    <div class="rounded-4" id="cart_count">0</div>
+                    <div class="rounded-4 cart_count d-none">0</div>
                 </a>
                 <a href="<?= $_ENV['WEB_URL'] ?>/admin/login"><span class="fa fa-user"></span></a>
             </div>
@@ -24,7 +24,7 @@
                     <div class="navicons d-flex gap-3 align-items-center">
                         <a href="<?= $_ENV['WEB_URL'] ?>/cart">
                             <span class="fa fa-box"></span>
-                            <div class="rounded-4" id="cart_count">0</div>
+                            <div class="rounded-4 cart_count d-none">0</div>
                         </a>
                         <a href="<?= $_ENV['WEB_URL'] ?>/admin/login"><span class="fa fa-user"></span></a>
                     </div>
@@ -36,7 +36,7 @@
                 <div class="collapse navbar-collapse d-lg-flex justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">الرئيسية</a>
+                            <a class="nav-link active" aria-current="page" href="<?= $_ENV['WEB_URL'] ?>">الرئيسية</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">عن المتجر</a>

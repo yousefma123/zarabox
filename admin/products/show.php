@@ -1,7 +1,7 @@
 <?php
     $page_title = "لوحة التحكم | المنتجات";
     require("../init.php");
-    use App\Controllers\Product\Product;
+    use App\Controllers\Admin\Product\Product;
     use App\Helpers\Paginator;
     $page_name = "products.show";
     $product = new Product();
@@ -61,7 +61,7 @@
                                                             <td><?= $data['price'] ?></td>
                                                             <td><?= $data['created_at'] ?></td>
                                                             <td>
-                                                                <a href="view?id=<?= $data['id'] ?>">
+                                                                <a href="<?= $_ENV['WEB_URL'] ?>/product?n=<?= str_replace([' ',',','.', '@','،'], '-', $data['name']) ?>&id=<?= $data['id'] ?>" target="_blank" class="category-item">   
                                                                     <button class="btn btn-default bg-primary p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-eye"></span></button>
                                                                 </a>
                                                                 <a href="update?id=<?= $data['id'] ?>">

@@ -20,7 +20,7 @@
 ?>
 
     
-    <div class="vh-100 d-flex justify-content-center align-items-center" style="min-height:calc(100vh - 130px) !important;">
+    <div class="d-flex justify-content-center my-5 align-items-center" style="">
         <div class="col-md-6">
             <div class="border border-3 border-success"></div>
             <div class="card bg-white shadow p-5">

@@ -1,7 +1,7 @@
 <?php
     $page_title = "لوحة التحكم | الأقسام";
     require("../init.php");
-    use App\Controllers\Category\Category;
+    use App\Controllers\Admin\Category\Category;
     $page_name = "categories.show";
     $category = new Category();
 ?>

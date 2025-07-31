@@ -79,8 +79,31 @@
                 }).showToast();
             }
         </script>
+
+        <script>
+            window.addEventListener('load', () => {
+                setCartIcon();
+            })
+
+            const setCartIcon = (shake = false) => {
+                const cart = getCart();
+                if (!cart || cart.length < 1) return false;
+
+                const cartIcons = document.querySelectorAll('.cart_count')
+                cartIcons.forEach( ( item ) => {
+                    item.innerText = cart.length;
+                    item.classList.remove('d-none')
+                    if (!shake) return false;
+                    item.classList.add('shake', 'scale')
+                    item.addEventListener('animationend', () => {
+                        item.classList.remove('scale');
+                        item.classList.remove('shake');
+                    }, { once: true });
+                })
+            }
+        </script>
         
     </body>
 </html>
 
-<?php } ?>
+<?php } ob_end_flush(); ?>

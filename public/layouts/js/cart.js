@@ -8,6 +8,7 @@ const saveCart = (cart) => {
     localStorage.setItem("cart", JSON.stringify(cart));
     
     const stored = localStorage.getItem("cart");
+    setCartIcon(true);
     return stored && stored === JSON.stringify(cart);
 };
 
@@ -55,7 +56,4 @@ const _openCartTap = () => {
   $finalSize.innerText = document.getElementById(`size-text-${finalSize}`).innerText
   div.classList.add('active')
 }
-
-// localStorage.clear();
-
 

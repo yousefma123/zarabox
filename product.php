@@ -4,7 +4,7 @@
     require('init.php');
     use App\Controllers\Product\Product;
     $product = new Product();
-    $product->single();
+    $product->index();
     $page_title = $product->data['name'];
     $page_description = $product->data['description'];
     require("public/components/header.php");

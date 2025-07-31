@@ -26,8 +26,8 @@
 
     <section class="categories py-5">
         <div class="container">
-            <?php foreach($home->categorieWithProducts() as $category): ?>
-            <div class="category mt-5">
+            <?php foreach($home->categoryWithProducts() as $category): ?>
+            <div class="category my-5">
                 <h3 class="main-title mb-5"><?= $category['name_ar'] ?></h3>
                 <div class="owl-carousel owl-items owl-theme">
                     <?php foreach($category['products'] as $product): ?>
@@ -53,7 +53,7 @@
                     <?php endforeach; ?>
                 </div>
                 <div class="mt-4 mt-md-5 d-flex justify-content-center align-items-center">
-                    <a href="#" class="btn btn-default show-more rounded-0">عرض المزيد</a>
+                    <a href="<?= $_ENV['WEB_URL'] ?>/category?n=<?= str_replace([' ',',','.', '@','،'], '-', $cat['name_ar']) ?>&id=<?= $cat['id'] ?>" class="btn btn-default show-more rounded-0">عرض المزيد</a>
                 </div>
             </div>
             <?php endforeach; ?>

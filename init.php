@@ -1,6 +1,7 @@
 <?php 
 
     use App\Controllers\Home\Home;
+    ob_start();
     require_once __DIR__ . '/shared/bootstrap.php';
     $home = new Home();
 

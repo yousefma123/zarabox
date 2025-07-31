@@ -1,7 +1,7 @@
 <?php
     $page_title = "لوحة التحكم | المنتجات";
     require("../init.php");
-    use App\Controllers\Product\Product;
+    use App\Controllers\Admin\Product\Product;
     $page_name = "products.create";
     $product = new Product();
 ?>

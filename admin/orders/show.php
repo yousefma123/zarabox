@@ -1,7 +1,7 @@
 <?php
     $page_title = "لوحة التحكم | الطلبات";
     require("../init.php");
-    use App\Controllers\Order\Order;
+    use App\Controllers\Admin\Order\Order;
     use App\Helpers\Paginator;
     $page_name = "orders.show";
     $order = new Order();

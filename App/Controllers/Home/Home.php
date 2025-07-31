@@ -24,12 +24,12 @@ class Home
             "INNER JOIN `products` ON `products`.category = `categories`.id",
             "fetchAll",
             "",
-            "LIMIT 5"
+            "LIMIT 4"
         );
         return $categories;
     }
 
-    public function categorieWithProducts()
+    public function categoryWithProducts()
     {
         $categories = self::categories()['fetchAll'];
         foreach($categories as &$category):

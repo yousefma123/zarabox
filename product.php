@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="item-description mt-5 text-muted">
+            <div class="item-description my-5 text-muted">
                 <?= $product->data['description'] ?>
             </div>
         </div>
@@ -94,7 +94,7 @@
         $related = $product->related();
         if ($related['rowCount'] > 0):
     ?>
-    <section class="categories py-5 mt-3">
+    <section class="categories py-5">
         <div class="container">
             <div class="category">
                 <h3 class="main-title mb-4">منتجات ذات صلة</h3>

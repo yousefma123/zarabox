@@ -11,6 +11,7 @@ class Cart
 {
     protected $conn;
     protected $token;
+    protected $statement;
 
     public function __construct()
     {

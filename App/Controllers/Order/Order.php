@@ -169,7 +169,7 @@ class Order
             
                 $_SESSION['completed_order'] = $order_id;
 
-                $link = $_ENV['WEB_URL'] . '/admin/orders?id=' . $order_id;
+                $link = $_ENV['WEB_URL'] . '/admin/orders/view?id=' . $order_id;
 
                 $message = "✅ <b>لديك طلب جديد مكتمل</b>\n"
                         . "<b>رقم الطلب:</b> #$code\n"
@@ -260,3 +260,8 @@ class Order
         //
     }
 }
+
+
+
+
+

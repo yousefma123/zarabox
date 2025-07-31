@@ -102,7 +102,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-4">
-                                                <button type="submit" name="update" class="btn btn-default w-100 rounded-pill p-3 btn-bg-system fw-bold shadow-sm">تعديل بيانات الموظف</button>
+                                                <button type="submit" name="update" class="btn btn-default w-100 rounded-pill p-3 btn-bg-system fw-bold shadow-sm">تعديل بيانات المنتج</button>
                                             </div>
                                         </div>
                                     </form>

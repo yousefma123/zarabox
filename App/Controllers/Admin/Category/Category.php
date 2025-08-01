@@ -41,7 +41,7 @@
             if(isset($_FILES['cover']['tmp_name']) && !empty($_FILES['cover']['tmp_name'])){
                 $checkCover = $this->uploader->check(
                     $_FILES['cover'],
-                    1000000,
+                    2000000,
                     ['jpg', 'jpeg', 'png', 'svg', 'webp']
                 );
                 if(!$checkCover){

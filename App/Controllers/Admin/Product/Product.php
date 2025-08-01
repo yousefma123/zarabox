@@ -71,7 +71,7 @@ class Product
                     ];
                     $checkImage = $this->uploader->check(
                         $file_array,
-                        1000000,
+                        2000000,
                         ['jpg', 'jpeg', 'png', 'svg', 'webp']
                     );
                     if(!$checkImage){

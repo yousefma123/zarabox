@@ -8,7 +8,7 @@
             <?php foreach($home->categories()['fetchAll'] as $cat): ?>
             <div class="carousel-item active position-relative">
                 <div class="category-name" style="z-index: 9999;">
-                    <a class="btn btn-default rounded-0" href="<?= $_ENV['WEB_URL'] ?>/category?n=<?= str_replace([' ',',','.', '@','،'], '-', $cat['name_ar']) ?>&id=<?= $cat['id'] ?>"><?= $cat['name_ar'] ?></a>
+                    <a class="btn btn-default rounded-0 text-white" href="<?= $_ENV['WEB_URL'] ?>/category?n=<?= str_replace([' ',',','.', '@','،'], '-', $cat['name_ar']) ?>&id=<?= $cat['id'] ?>"><?= $cat['name_ar'] ?></a>
                 </div>
                 <img src="<?= public_url('uploads/categories/' . $cat['cover']) ?>" class="d-block w-100" alt="<?= $cat['name_ar'] ?>">
             </div>

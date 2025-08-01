@@ -66,7 +66,7 @@ header {
 }
 
 .heroSlider , .heroSlider img{
-    height: 560px !important;
+    max-height: 560px !important;
     position: relative;
 }
 
@@ -832,4 +832,8 @@ footer {
   
 .cart_count.shake {
     animation: cart-shake 0.4s ease;
+}
+
+.category-item img{
+    width: 100% !important;
 }

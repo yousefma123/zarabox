@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="item-description my-5 text-muted">
+        <div class="item-description my-5 text-muted">
                 <?= $product->data['description'] ?>
             </div>
         </div>

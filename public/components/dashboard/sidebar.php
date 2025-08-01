@@ -8,6 +8,12 @@
                     الرئيسية
                 </a>
             </li>
+            <li class="nav-item mb-1">
+                <a href="<?= $_ENV['WEB_URL'] ?>" class="p-2 pe-3 w-100 rounded-pill">
+                    <span class="fa fa-shop ms-3"></span>
+                    المتجر
+                </a>
+            </li>
             <!-- <li class="nav-item mb-1">
                 <a href="<?= $_ENV['WEB_URL'] ?>/admin/profile" class="p-2 pe-3 w-100 rounded-pill <?= $page_name == 'profile' ?  'active' : '' ?>">
                     <span class="fa fa-user ms-3"></span>

@@ -138,7 +138,7 @@
                                             <h6 class="fw-bold card-title-header m-0">المنتجات</h6>
                                         </div>
                                         <div class="card-body">
-                                        <?php foreach ($items['fetchAll'] as $item): ?>
+                                        <?php $total = 0; foreach ($items['fetchAll'] as $item): $total += $item['total']; ?>
                                             <div class="item d-flex justify-content-between align-items-center gap-md-3 gap-4 flex-wrap mt-4">
                                                 <div class="main-details d-flex gap-3 flex-row">
                                                     <img class="border" width="100" height="100"
@@ -163,6 +163,8 @@
                                             </div>
                                             <hr>
                                         <?php endforeach; ?>
+
+                                        <strong class="fw-bold"><?= number_format($total + 100) ?> EGP</strong>
 
                                         </div>
                                     </div>

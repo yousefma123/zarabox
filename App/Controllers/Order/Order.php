@@ -131,13 +131,13 @@ class Order
             
                 $stmtOrder = $this->conn->prepare("
                     INSERT INTO orders 
-                    (code, company, customer_name, email, phone, address, city, governorate, postalcode, total, created_at)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                    (code, company, customer_name, email, phone, address, city, governorate, postalcode, created_at)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
                 ");
                 
                 $code = self::generateCode();
                 $stmtOrder->execute([
-                    $code, $company, $firstname.' '.$lastname, $email, $phone, $address, $city, $governorate, $postalcode, $total
+                    $code, $company, $firstname.' '.$lastname, $email, $phone, $address, $city, $governorate, $postalcode
                 ]);
             
                 $order_id = $this->conn->lastInsertId();
@@ -178,8 +178,8 @@ class Order
                         . "<a href=\"$link\">🛒 متابعة الطلب</a>";
 
                 $this->telegram->newOrder($message);
-
-                header('Location: success');
+               
+                header('Location: order?code='.$code);
                 exit;
             
             } catch (Exception $e) {

@@ -194,7 +194,7 @@
                     </div>
                     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
                         <span>المبلغ الإجمالي</span>
-                        <span class="fw-bold"><span id="$totalOrder"><?= number_format($total) ?></span> EGP</span>
+                        <span class="fw-bold"><span id="$totalOrder"><?= number_format($total + 100) ?></span> EGP</span>
                     </div>
                 </div>
             </div>

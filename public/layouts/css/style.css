@@ -846,7 +846,7 @@ footer {
 }
 
 @media (max-width:767px) {
-    .category .item img {
+    .category .item img , .category-item img{
         height: 180px !important; 
         max-height: 180px !important;
         min-height: 180px !important;
@@ -857,7 +857,6 @@ footer {
     .item-prices .after-price {
         font-size: 15px;
         font-weight: bold !important;
-
     }
     .item-prices .before-price {
         opacity:.5 !important;

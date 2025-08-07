@@ -75,10 +75,10 @@
                                                     <div class="col-md-12 mt-3">
                                                         <label for="images" id="images_label" class="uploadFileND p-5 text-center w-100 rounded-4">
                                                             <span class="fa fa-cloud-arrow-up mb-3"></span>
-                                                            <div class="fw-bold">صور المنتج بحد أقصى 5</div>
+                                                            <div class="fw-bold">صور المنتج بحد أقصى 8</div>
                                                         </label>
                                                         <input type="file" id="images" name="images[]" onchange="_upload_files(this, '', '[png, jpg, jpeg, webp]', '#images_label')" accept="image/png, image/jpg, image/jpeg, image/webp" class="mt-1 form-control d-none" multiple required>
-                                                        <div class="alert alert-warning rounded-4 shadow-sm mt-3 fs-7"> الملفات المسموح برفعها هي: <br>  (jpeg - webp - png - jpg) <br> علما أن حجم الملف يجب أن لا يتجاوز <span class="fw-bold me-1"> 1MB </span></div>
+                                                        <div class="alert alert-warning rounded-4 shadow-sm mt-3 fs-7"> الملفات المسموح برفعها هي: <br>  (jpeg - webp - png - jpg) <br> علما أن حجم الملف يجب أن لا يتجاوز <span class="fw-bold me-1"> 2MB </span></div>
                                                     </div>
                                                 </div>
                                             </div>

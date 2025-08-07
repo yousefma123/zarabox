@@ -24,7 +24,7 @@ class Home
             "INNER JOIN `products` ON `products`.category = `categories`.id",
             "fetchAll",
             "",
-            "LIMIT 4"
+            "LIMIT 50"
         );
         return $categories;
     }

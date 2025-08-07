@@ -7,7 +7,7 @@
  * @author Tom De Caluwé
  * @license The MIT License (MIT)
  */
-;(function($, window, document, undefined) {
+ ;(function($, window, document, undefined) {
 
 	/**
 	 * Creates the autoplay plugin.

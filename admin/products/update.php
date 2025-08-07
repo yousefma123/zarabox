@@ -98,7 +98,7 @@
                                                         <input type="file" id="images_<?= $x ?>" name="images[]" onchange="_upload_files(this, '#view_<?= $x ?>', '[png, jpg, jpeg, webp]', '#images_label_<?= $x ?>')" accept="image/png, image/jpg, image/jpeg, image/webp" class="mt-1 form-control d-none" show>
                                                     </div>
                                                     <?php endfor; ?>
-                                                    <div class="alert alert-warning rounded-4 shadow-sm mt-3 fs-7"> الملفات المسموح برفعها هي: <br>  (jpeg - webp - png - jpg) <br> علما أن حجم الملف يجب أن لا يتجاوز <span class="fw-bold me-1"> 1MB </span></div>
+                                                    <div class="alert alert-warning rounded-4 shadow-sm mt-3 fs-7"> الملفات المسموح برفعها هي: <br>  (jpeg - webp - png - jpg) <br> علما أن حجم الملف يجب أن لا يتجاوز <span class="fw-bold me-1"> 2MB </span></div>
                                                 </div>
                                             </div>
                                             <div class="col-md-12 mt-4">

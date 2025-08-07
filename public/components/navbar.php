@@ -34,7 +34,7 @@
                 </div>
                 
                 <div class="collapse navbar-collapse d-lg-flex justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav">
+                    <ul class="navbar-nav flex-wrap justify-content-center">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page" href="<?= $_ENV['WEB_URL'] ?>">الرئيسية</a>
                         </li>

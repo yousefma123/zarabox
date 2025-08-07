@@ -44,12 +44,12 @@
                 dots: false,
                 autoplay: true,
                 autoplayHoverPause: false, 
-                autoplayTimeout: 8000,
+                autoplayTimeout: 2000,
                 rtl: true,
                 responsive: {
                     0: {
-                        items: 1,
-                        stagePadding: 70
+                        items: 2,
+                        stagePadding: 0
                     },
                     500: {
                         items:2,

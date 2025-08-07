@@ -70,7 +70,16 @@ header {
     position: relative;
 }
 
-.heroSlider .carousel-item::after{
+@media (max-width:767px) {
+    .heroSlider , .heroSlider img{
+        height: 350px !important;
+    }
+    .categories {
+        padding-top: 0 !important;
+    }
+ }
+
+.heroSlider::after{
     content: '';
     position: absolute;
     top: 0;
@@ -79,6 +88,14 @@ header {
     z-index: 999;
     width: 100%;
     height: 100%;
+}
+
+.heroSlider .carousel-inner {
+    z-index: 9999 !important;
+}
+
+.heroSlider button {
+    z-index: 9999 !important;
 }
 
 .heroSlider .category-name{
@@ -124,23 +141,17 @@ a{
     min-height: 280px !important;
 }
 
+
+
 .category .category-item:hover img { 
     transform: scale(1.1);
 }
 
 .item-prices .before-price {
-    font-size: 14px;
+    font-size: 12px;
 }
 
-.item-prices .before-price::after {
-    content: '';
-    width: 100%;
-    height: 1px;
-    background-color: #000;
-    position: absolute;
-    top: 50%;
-    right: 0;
-}
+
 
 .category .category-item:hover .item-name span{
     border-bottom: 1px solid #000;
@@ -158,11 +169,7 @@ a{
     font-size: 40px !important;
 }
 
-@media (max-width:767px) {
-    .category .item img {
-        max-height: 180px;
-    }
-}
+
 
 .category .show-more {
     border: 1px solid #000;
@@ -836,4 +843,24 @@ footer {
 
 .category-item img{
     width: 100% !important;
+}
+
+@media (max-width:767px) {
+    .category .item img {
+        height: 180px !important; 
+        max-height: 180px !important;
+        min-height: 180px !important;
+    }
+    .category .item * {
+        font-weight: 600 !important;
+    }
+    .item-prices .after-price {
+        font-size: 15px;
+        font-weight: bold !important;
+
+    }
+    .item-prices .before-price {
+        opacity:.5 !important;
+
+    }
 }

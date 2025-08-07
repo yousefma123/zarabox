@@ -3,26 +3,29 @@
     $page_title = "ZaraBox";
     require('init.php');
 ?>
-    <section id="carouselExampleFade" class="heroSlider carousel slide carousel-fade position-relative">
-        <div class="carousel-inner  overflow-hidden">
-            <?php foreach($home->categories()['fetchAll'] as $cat): ?>
-            <div class="carousel-item active position-relative">
-                <div class="category-name" style="z-index: 9999;">
-                    <a class="btn btn-default rounded-0 text-white" href="<?= $_ENV['WEB_URL'] ?>/category?n=<?= str_replace([' ',',','.', '@','،'], '-', $cat['name_ar']) ?>&id=<?= $cat['id'] ?>"><?= $cat['name_ar'] ?></a>
+
+    <div id="carouselExampleInterval" class="heroSlider carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+       
+        <?php foreach($home->categories()['fetchAll'] as $key => $cat): ?>
+                <div class="carousel-item position-relative <?= $key == 0 ? 'active' : '' ; ?>" data-bs-interval="3000">
+                    <div class="category-name" style="z-index: 9999;">
+                        <a class="btn btn-default rounded-0 text-white" href="<?= $_ENV['WEB_URL'] ?>/category?n=<?= str_replace([' ',',','.', '@','،'], '-', $cat['name_ar']) ?>&id=<?= $cat['id'] ?>"><?= $cat['name_ar'] ?></a>
+                    </div>
+                    <img src="<?= public_url('uploads/categories/' . $cat['cover']) ?>" class="d-block w-100" alt="<?= $cat['name_ar'] ?>">
                 </div>
-                <img src="<?= public_url('uploads/categories/' . $cat['cover']) ?>" class="d-block w-100" alt="<?= $cat['name_ar'] ?>">
-            </div>
-            <?php endforeach; ?>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </section>
+                <?php endforeach; ?>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
 
     <section class="categories py-5">
         <div class="container">

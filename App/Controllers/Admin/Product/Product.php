@@ -62,7 +62,7 @@ class Product
         }
 
         if(isset($_FILES['images']['tmp_name'][0]) && !empty($_FILES['images']['tmp_name'][0])){
-            if(count($_FILES['images']['tmp_name']) <= 5){
+            if(count($_FILES['images']['tmp_name']) <= 8){
                 foreach($_FILES['images']['tmp_name'] as $key => $file){
                     $file_array = [
                         "name"      => $_FILES['images']['name'][$key],
@@ -137,7 +137,7 @@ class Product
 
         $check = true;
 
-        if (count($_FILES['images']['tmp_name']) > 0 && count($_FILES['images']['tmp_name']) <= 5):
+        if (count($_FILES['images']['tmp_name']) > 0 && count($_FILES['images']['tmp_name']) <= 8):
             foreach($_FILES['images']['tmp_name'] as $key => $image):
                 if (isset($_POST['image_ids'][$key])):
                     if (!empty($_FILES['images']['tmp_name'][$key])):

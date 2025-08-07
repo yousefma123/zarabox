@@ -23,6 +23,7 @@ if(@$settings == true){
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/bootstrap.min.css">
 
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/owl-carousel.css">
+    <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/owl.theme.default.min.css">
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/all.min.css">
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/pe-icons.css">
     <link rel="stylesheet" href="<?= public_url('layouts/css') ?>/style.css?new3">

@@ -140,17 +140,30 @@
                 <h6>رقم الطلب: <?= $order['code'] ?></h6>
                 <article class="card mt-3">
                     <div class="card-body row text-center">
-                        <div class="col d-flex flex-column gap-2"> <strong>وقت التوصيل المتوقع:</strong> <span> 20-10-2025 </span> </div>
-                        <div class="col d-flex flex-column gap-2"> <strong>حالة الطلب:</strong> <span> خرجت الشحنة للتسليم </span> </div>
+                        <?php if ($order['status'] > 1 && $order['status'] < 8): ?>
+                            <div class="col d-flex flex-column gap-2"> <strong>وقت التوصيل المتوقع:</strong> <span> <?= $order['estimatedTime'] ?> </span> </div>
+                        <?php endif; ?>
+                        <div class="col d-flex flex-column gap-2"> <strong>حالة الطلب:</strong> <span> <?= $order['status_name'] ?> </span> </div>
                         <div class="col d-flex flex-column gap-2"> <strong>رقم التتبع #:</strong> <span> <?= $order['code'] ?> </span> </div>
                     </div>
                 </article>
-                <div class="track">
-                    <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">تم إرسال الطلب</span> </div>
-                    <div class="step"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">تم تأكيد الطلب</span> </div>
-                    <div class="step"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> في الطريق للتسليم </span> </div>
-                    <div class="step"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">تم التوصيل</span> </div>
-                </div>
+                <?php if ($order['status'] == 1): ?>
+                    <div class="alert alert-primary mt-4 fw-bold p-4 rounded-1" role="alert">
+                        طلبك بانتظار التأكيد من قبل المتجر
+                    </div>
+                <?php elseif ($order['status'] > 1 && $order['status'] < 8): ?> 
+                    <div class="track">
+                        <div class="step active"> <span class="icon"> <i class="fa fa-check"></i> </span> <span class="text">تم تأكيد الطلب</span> </div>
+                        <div class="step <?= $order['status'] >= 3 ? 'active' : ''; ?>"> <span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">تم الشحن</span> </div>
+                        <div class="step <?= $order['status'] >= 4 ? 'active' : ''; ?>"> <span class="icon"> <i class="fa fa-truck"></i> </span> <span class="text"> في الطريق للتسليم </span> </div>
+                        <div class="step <?= $order['status'] == 5 ? 'active' : ''; ?>"> <span class="icon"> <i class="fa fa-user"></i> </span> <span class="text">تم التسليم</span> </div>
+                    </div>
+                <?php else: ?>
+                    <div class="alert alert-danger mt-4 p-4 rounded-1 fw-bold" role="alert">
+                        تعذر تسليم الطلب <br>
+                        <?= $order['status_name'] ?>
+                    </div>
+                <?php endif; ?>
                 <hr>
                 <div class="cart py-4" style="min-height:auto !important;">
                     <div class="container">

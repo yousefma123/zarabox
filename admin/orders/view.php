@@ -26,15 +26,17 @@
                                  o.company, 
                                  o.phone, 
                                  o.email, 
-                                 o.city, 
+                                 o.city,
                                  o.governorate, 
                                  o.created_at,
+                                 statuses.name AS status_name,
                                  COUNT(oi.id) AS total_items,
                                  SUM(oi.quantity * oi.total) AS order_total,
                                  GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') AS products",
                                 "orders o",
                                 "INNER JOIN order_items oi ON o.id = oi.order_id
-                                 INNER JOIN products p ON oi.product_id = p.id",
+                                INNER JOIN statuses ON statuses.id = o.status
+                                INNER JOIN products p ON oi.product_id = p.id",
                                 "fetch",
                                 "WHERE o.id = $id",
                                 "GROUP BY o.id, o.created_at"
@@ -64,6 +66,14 @@
                                         طلب رقم: #<?= $data['fetch']['code'] ?>
                                     </div>
                                     <div class="text-muted fw-bold"><?= $data['fetch']['created_at'] ?></div>
+                                </div>
+                                <div class="col-md-12 mb-3">
+                                    <div class="card rounded-5 p-4 h-100 task-card">
+                                        <div class="card-title mb-1 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                                            <h6 class="fw-bold card-title-header m-0">حالة الطلب</h6>
+                                            <strong class="fw-bold"><?= $data['fetch']['status_name'] ?></strong>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12 mb-3">
                                     <div class="card rounded-5 p-4 h-100 task-card">

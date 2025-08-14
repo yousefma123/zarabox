@@ -31,13 +31,18 @@
                                                 }
                                             }
                                         endif;
+                                        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['status'])):
+                                            $order->updateStatus();
+                                        endif;
                                         $paginator = new Paginator("orders", 10);
                                         $data = $statement->getJoinData(
-                                            "o.id, o.customer_name, o.city, o.governorate, o.created_at,
+                                            "o.id, o.code, o.status, o.customer_name, o.city, o.governorate, o.created_at,
                                             COUNT(oi.id) AS total_items,
-                                            SUM(oi.total) AS order_total",
+                                            SUM(oi.total) AS order_total,
+                                            statuses.name AS status_name, statuses.id AS status_id",
                                             "orders o",
-                                            "INNER JOIN order_items oi ON o.id = oi.order_id",
+                                            "INNER JOIN order_items oi ON o.id = oi.order_id
+                                            INNER JOIN statuses ON statuses.id = o.status",
                                             "fetchAll",
                                             "GROUP BY o.id, o.created_at",
                                             "LIMIT ".$paginator->start.", ".$paginator->limit.""
@@ -52,6 +57,7 @@
                                                         <th scope="col">المحافظة - المدينة</th>
                                                         <th scope="col">عدد المنتجات</th>
                                                         <th scope="col">الإجمالي</th>
+                                                        <th scope="col">الحالة</th>
                                                         <th scope="col">وقت الطلب</th>
                                                         <th scope="col">التحكم</th>
                                                     </tr>
@@ -63,12 +69,13 @@
                                                             <td><?= $data['governorate'].' - '.$data['city'] ?></td>
                                                             <td class="fw-bold"><?= $data['total_items'] ?></td>
                                                             <td class="fw-bold"><?= number_format($data['order_total'] + 100) ?></td>
+                                                            <td class="fs-7 fw-bold"><?= $data['status_name'] ?></td>
                                                             <td><?= $data['created_at'] ?></td>
                                                             <td>
                                                                 <a href="view?id=<?= $data['id'] ?>">
                                                                     <button class="btn btn-default bg-primary p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-eye"></span></button>
                                                                 </a>
-                                                                <button onclick="toggleOrderStatusSidebar(this, '<?= $data['id'] ?>')" class="btn btn-default bg-warning p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-pen"></span></button>
+                                                                <button onclick="toggleOrderStatusSidebar(this, '<?= $data['id'] ?>', '<?= $data['code'] ?>', '<?= $data['status'] ?>', '<?= $data['customer_name'] ?>')" class="btn btn-default bg-warning p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-pen"></span></button>
                                                                 <a href="?action=delete&id=<?= $data['id'] ?>" onclick="_confirm(event, 'هل أنت متأكد من حذف الطلب ؟')">
                                                                     <button class="btn btn-default bg-danger p-1 ps-2 pe-2 ms-2 rounded-3 border-0"><span class="fa fa-trash"></span></button>
                                                                 </a>
@@ -101,21 +108,15 @@
         <div class="text-left mb-4"><span onclick="toggleOrderStatusSidebar(this)" class="fa fa-times shadow-sm rounded-3"></span></div>
         <form method="POST">
             <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>">
-            <div class="text-muted mb-3 fw-bold text-center">هل تحتوي القضية على ملفات تود إرفاقها ؟</div>
-            <input type="hidden" class="form-control bg-ddd border-0 shadow-sm order_id" readonly disabled>
-            <select name="status" class="form-control" id="orderStatusInput">
+            <div class="text-muted mb-3 fw-bold text-center">تحديث حالة الطلب</div>
+            <input type="hidden" name="orderId" class="form-control bg-ddd border-0 shadow-sm order_id" readonly>
+            <input type="text" class="form-control bg-ddd border-0 shadow-sm customer_name" readonly disabled>
+            <input type="text" class="form-control bg-ddd border-0 shadow-sm order_code" readonly disabled>
+            <select name="status" class="form-control" id="orderStatusInput" onchange="this.form.submit()">
                 <option value="">اختر الحالة</option>
-                <option value="2">قيد المراجعة</option>
-                <option value="2">تم التأكيد</option>
-                <option value="3">جاري التجهيز</option>
-                <option value="3">جاهز للشحن</option>
-                <option value="3">تم الشحن</option>
-                <option value="3">جاري التوصيل</option>
-                <option value="3">تم التسليم</option>
-                <option value="3">مرتجع - العميل رفض الاستلام</option>
-                <option value="3">مرتجع - العميل لم يرد على الاتصالات</option>
-                <option value="3">تم الإلغاء من قبل العميل</option>
-                <option value="3">تم الإلغاء لعدم توفر المنتج</option>
+                <?php foreach($order->statuses() as $status): ?>
+                    <option value="<?= $status['id'] ?>"><?= $status['name'] ?></option>
+                <?php endforeach;?>
             </select>
         </form>
     </div>
@@ -123,12 +124,15 @@
 
 
     <script>
-        const toggleOrderStatusSidebar = (elem, id = null) => {
+        const toggleOrderStatusSidebar = (elem, id = null, code = null, status = 0, customer_name = null) => {
             const sidebar = document.getElementById('statusChanger')
             sidebar.classList.toggle('sidebar-orders-toggle')
             document.querySelector('.overlay').classList.toggle('overlay-toggled');
             if (!id) return;
             sidebar.querySelector('.order_id').value = id
+            sidebar.querySelector('.customer_name').value = customer_name
+            sidebar.querySelector('.order_code').value = code
+            sidebar.querySelector('#orderStatusInput').value = status
         }
     </script>
 

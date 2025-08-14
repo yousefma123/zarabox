@@ -20,7 +20,6 @@ class Order
         $this->alert    = new Alert();
     }
 
-
     public function delete($token)
         {
             if (!isset($token) || $token != $_SESSION['token']) return false;
@@ -30,5 +29,21 @@ class Order
             if($delete->rowCount() == 1){
                 $this->alert->push('تم حذف الطلب بنجاح');
             }
+    }
+
+    public function statuses() 
+    {
+        return $this->statement->select("*", "statuses", "fetchAll", "", "", "ORDER BY id ASC")['fetchAll'];
+    }
+
+    public function updateStatus() 
+    {
+        if ($_POST['token'] != $_SESSION['token']) return;
+
+        $update = $this->conn->prepare("UPDATE `orders` SET `status` = ? WHERE `id` = ?  LIMIT 1");
+        $update->execute([$_POST['status'], $_POST['orderId']]);
+        if ($update->rowCount() == 1) {
+            $this->alert->push("تم تحديث حالة الطلب بنجاح");
+        }
     }
 }

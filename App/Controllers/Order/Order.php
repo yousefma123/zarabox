@@ -205,7 +205,14 @@ class Order
     
         $code = trim(strip_tags($_GET['code']));
     
-        $order = $this->statement->select("*", "`orders`", "fetch", "WHERE `code` = '$code'", "LIMIT 1");
+        $order = $this->statement->getJoinData(
+            "orders.*, statuses.id AS status_id, statuses.name AS status_name",
+            "orders",
+            "INNER JOIN statuses ON statuses.id = orders.status",
+            "fetch",
+            "WHERE orders.code = '$code'",
+            "LIMIT 1"
+        );
     
         if ($order['rowCount'] != 1) {
             header('Location: 404.html');
@@ -239,6 +246,8 @@ class Order
             exit;
         }
 
+        $order['estimatedTime'] = self::estimatedTime($order['created_at']);
+
         $order['items'] = $items;
         return $order;
     }
@@ -253,6 +262,12 @@ class Order
             if($delete->rowCount() == 1){
                 $this->alert->push('تم حذف الطلب بنجاح');
             }
+    }
+
+    public function estimatedTime($orderDate) 
+    {
+        $newTimestamp = strtotime('+5 days', strtotime($orderDate));
+        return date('Y-m-d', $newTimestamp);
     }
 
     public function update()

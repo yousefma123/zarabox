@@ -32,7 +32,7 @@
                                             }
                                         endif;
                                         $paginator = new Paginator("categories", 10);
-                                        $data = $statement->select("*", "`categories`", "fetchAll", "", "LIMIT ".$paginator->start.", ".$paginator->limit."");
+                                        $data = $statement->select("*", "`categories`", "fetchAll", "", "LIMIT ".$paginator->start.", ".$paginator->limit."", "ORDER BY arrangement ASC");
                                         if($data['rowCount'] > 0):
                                     ?>
                                             <table class="table table-striped text-center tb-show">
@@ -40,6 +40,7 @@
                                                     <tr>
                                                         <th scope="col">اسم القسم عربي</th>
                                                         <th scope="col">اسم القسم إنجليزي</th>
+                                                        <th scope="col">ترتيب القسم</th>
                                                         <th scope="col">تاريخ الإضافة</th>
                                                         <th scope="col">التحكم</th>
                                                     </tr>
@@ -50,6 +51,7 @@
                                                         <tr>
                                                             <td><?= $data['name_ar'] ?></td>
                                                             <td><?= $data['name_en'] ?></td>
+                                                            <td><input type="number" class="form-control" data-id="<?= $data['id'] ?>" value="<?= $data['arrangement'] ?>" onkeyup="arrangement(this)"></td>
                                                             <td><?= $data['created_at'] ?></td>
                                                             <td>
                                                                 <a href="view?id=<?= $data['id'] ?>">
@@ -83,6 +85,26 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const arrangement = (elem) => {
+            const itemId= elem.getAttribute('data-id');
+            const val   = elem.value;
+
+            if (!val || isNaN(val)) return;
+            const url = `<?= $_ENV['WEB_URL'] ?>/App/Controllers/Admin/Category/Category?id=${itemId}&arr=${val}`;
+            fetch(url)
+            .then( (response) => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            }).then( (data) => {
+                console.log(data)
+            })
+            .catch( (err) => {
+                console.log(err)
+            })
+        }
+    </script>
 
 <?php 
     include( PUBLIC_PATH . '/components/dashboard/footer.php' );

@@ -1,6 +1,8 @@
 <?php
 
     namespace App\Controllers\Admin\Category;
+    require_once __DIR__ . '/../../../../shared/bootstrap.php';
+
     use App\Database\Connection;
     use App\Helpers\Uploader;
     use App\Helpers\Alert;
@@ -133,4 +135,15 @@
                 }
             }
         }
+
+        public function arrangement () 
+        {
+            $update = $this->conn->prepare("UPDATE `categories` SET `arrangement` = ? WHERE `id` = ? LIMIT 1");
+            $update->execute([$_GET['arr'], $_GET['id']]);
+        }
     }
+
+
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['arr'])):
+        $category = (new Category())->arrangement();
+    endif;
